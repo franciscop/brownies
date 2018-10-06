@@ -14,7 +14,7 @@ const t = local.token;   // Get it
 delete local.token;      // Del it
 ```
 
-You can also [iterate them as expected](https://github.com/franciscop/clean-store/blob/master/src/cookies.test.js) with `Object.keys()`, `Object.values()`, `for(...)`, etc:
+You can also [iterate them as expected](https://github.com/franciscop/clean-store/blob/master/src/cookies.test.js) with `Object.keys()`, `Object.values()`, etc:
 
 ```js
 cookies.token = 42;
