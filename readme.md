@@ -52,12 +52,9 @@ Or use a CDN for the browser:
 
 ```js
 <script src="https://cdn.jsdelivr.net/npm/clean-store"></script>
-```
-
-But then don't forget to extract them:
-
-```js
-const { cookies, local, ... } = store;
+<script>
+  const { cookies, local } = store;
+</script>
 ```
 
 
