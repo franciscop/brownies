@@ -10,7 +10,18 @@
     "gzip": "gzip -c store.min.js | wc -c && echo 'bytes' # Only for Unix"
   },
   "files": [],
-  "keywords": ["cookie", "cookies", "localStorage", "local", "store", "storage", "proxy", "synchronous", "clean", "interface"],
+  "keywords": [
+    "cookie",
+    "cookies",
+    "localStorage",
+    "local",
+    "store",
+    "storage",
+    "proxy",
+    "synchronous",
+    "clean",
+    "interface"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
