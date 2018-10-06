@@ -1,6 +1,6 @@
 {
-  "name": "store",
-  "version": "0.1.0",
+  "name": "clean-store",
+  "version": "0.0.0",
   "description": "Browser storage technologies through a common interface. Includes events",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles",
     "gzip": "gzip -c store.min.js | wc -c && echo 'bytes' # Only for Unix"
   },
-  "keywords": [],
+  "keywords": ["cookie", "cookies", "localStorage", "local", "store", "storage", "proxy", "synchronous", "clean", "interface"],
   "author": "",
   "license": "MIT",
   "devDependencies": {
