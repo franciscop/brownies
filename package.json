@@ -1,6 +1,6 @@
 {
   "name": "clean-store",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Browser storage technologies through a common interface. Includes events",
   "main": "store.min.js",
   "scripts": {
