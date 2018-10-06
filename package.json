@@ -22,7 +22,14 @@
     "clean",
     "interface"
   ],
-  "author": "",
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscop/clean-store.git"
+  },
+  "bugs": {
+    "url": "https://github.com/franciscop/clean-store/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
