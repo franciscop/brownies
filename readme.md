@@ -14,11 +14,13 @@ const t = local.token;    // Get it
 delete local.token;       // Forget it
 ```
 
-You can also iterate them as normal:
+You can also iterate them as expected with `Object.keys()`, `Object.values()`, `for(... in ...)` and `for (... of ...)`:
 
 ```js
 cookies.token = 42;
 cookies.name = 'Francisco';
+
+console.log(Object.keys(cookies)); // token, name
 
 for (let key in cookies) {
   console.log(key, cookies[key]); // token, 42; name, 'Francisco'
