@@ -1,10 +1,10 @@
 {
   "name": "store",
   "version": "1.0.0",
-  "description": "",
+  "description": "Browser storage technologies through a common interface. Includes events",
   "main": "index.js",
   "scripts": {
-    "build": "rollup src/index.js -o store.js --name store --output.format umd && uglifyjs store.js -o store.min.js",
+    "build": "rollup -c && uglifyjs store.js -o store.min.js",
     "pretest": "npm run build",
     "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles",
     "gzip": "gzip -c store.min.js | wc -c && echo 'bytes' # Only for Unix"
@@ -18,5 +18,9 @@
     "babel-preset-env": "^1.6.1",
     "rollup": "^0.50.0",
     "uglify-es": "^3.1.3"
+  },
+  "dependencies": {
+    "cookiesjs": "^2.0.0",
+    "rollup-plugin-node-resolve": "^3.4.0"
   }
 }
