@@ -53,7 +53,7 @@ Or use a CDN for the browser:
 ```js
 <script src="https://cdn.jsdelivr.net/npm/clean-store"></script>
 <script>
-  const { cookies, local } = store;
+  const { cookies, local, ... } = store;
 </script>
 ```
 
