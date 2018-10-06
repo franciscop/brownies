@@ -53,4 +53,20 @@ describe('cookies', () => {
     }
     expect(values).toEqual(['Francisco', 'Presencia']);
   });
+
+  it('retains the types', () => {
+    cookies.id = 1;
+    cookies.accepted = true;
+    cookies.name = 'Francisco';
+    cookies.friends = [3, 5];
+    cookies.user = { id: 1, accepted: true, name: 'Francisco' };
+    expect(typeof cookies.id).toEqual('number');
+    expect(typeof cookies.accepted).toEqual('boolean');
+    expect(typeof cookies.name).toEqual('string');
+    expect(Array.isArray(cookies.friends)).toEqual(true);
+    expect(typeof cookies.user).toEqual('object');
+    for (let key in cookies) {
+      delete cookies[key];
+    }
+  });
 });

@@ -65,7 +65,7 @@ The above should be enough for most cases, but here are some extra details.
 
 ### Cookies
 
-It uses the [library `cookiesjs`](https://github.com/franciscop/cookies.js) underneath and wraps it through a simple getter/setter interface:
+Manipulate cookies with the simple getter/setter interface:
 
 ```js
 import { cookies } from 'clean-store';
@@ -75,14 +75,39 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
-**Manually setting values**: values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. This is implemented in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
+Cookies can be set to many different standard values, and they will retain the types. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
+
+```js
+cookies.id = 1;
+cookies.accepted = true;
+cookies.name = 'Francisco';
+cookies.friends = [3, 5];
+cookies.user = { id: 1, accepted: true, name: 'Francisco' };
+console.log(typeof cookies.id);               // 'number'
+console.log(typeof cookies.accepted);         // 'boolean'
+console.log(typeof cookies.name);             // 'string'
+console.log(Array.isArray(cookies.friends));  // true
+console.log(typeof cookies.user);             // 'object'
+```
+
+**Warning: manually setting values.** Values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. See the details in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
 
 ```js
 import { cookies } from 'clean-store';
 document.cookie = `name=${encodeURIComponent(JSON.stringify('Francisco'))}`
-
 console.log(cookies.name);  // Francisco
 ```
+
+You can iterate over the cookies in many different standard ways as normal:
+
+```js
+Object.keys(cookies);
+Object.values(cookies);
+Object.entries(cookies);
+for (let key in cookies) {}
+for (let val of cookies) {}
+```
+
 
 
 ### LocalStorage

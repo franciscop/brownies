@@ -52,4 +52,20 @@ describe('local', () => {
     }
     expect(values).toEqual(['Francisco', 'Presencia']);
   });
+
+  it('retains the types', () => {
+    local.id = 1;
+    local.accepted = true;
+    local.name = 'Francisco';
+    local.friends = [3, 5];
+    local.user = { id: 1, accepted: true, name: 'Francisco' };
+    expect(typeof local.id).toEqual('number');
+    expect(typeof local.accepted).toEqual('boolean');
+    expect(typeof local.name).toEqual('string');
+    expect(Array.isArray(local.friends)).toEqual(true);
+    expect(typeof local.user).toEqual('object');
+    for (let key in local) {
+      delete local[key];
+    }
+  });
 });
