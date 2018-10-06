@@ -5,13 +5,13 @@ A clean interface for browser storage technologies in 1kb:
 ```js
 import { cookies, local } from 'clean-store';
 
-cookies.token = 42;       // Set it
-const t = cookies.token;  // Get it
-delete cookies.token;     // Eat it
+cookies.token = 42;     // Set it
+const t = cookies.token;// Get it
+delete cookies.token;   // Eat it
 
-local.token = 42;         // Set it
-const t = local.token;    // Get it
-delete local.token;       // Remove it
+local.token = 42;       // Set it
+const t = local.token;  // Get it
+delete local.token;     // Remove it
 ```
 
 You can also iterate them as expected with `Object.keys()`, `Object.values()`, `for(... in ...)` and `for (... of ...)`:
