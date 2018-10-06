@@ -14,17 +14,13 @@ const t = local.token;   // Get it
 delete local.token;      // Del it
 ```
 
-You can also iterate them as expected with `Object.keys()`, `Object.values()`, `for(... in ...)` and `for (... of ...)`:
+You can also [iterate them as expected](https://github.com/franciscop/clean-store/blob/master/src/cookies.test.js) with `Object.keys()`, `Object.values()`, `for(...)`, etc:
 
 ```js
 cookies.token = 42;
 cookies.name = 'Francisco';
 
 console.log(Object.keys(cookies)); // token, name
-
-for (let key in cookies) {
-  console.log(key, cookies[key]); // token, 42; name, 'Francisco'
-}
 
 for (let val of cookies) {
   console.log(val); // 42, 'Francisco'
