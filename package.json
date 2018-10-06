@@ -2,13 +2,14 @@
   "name": "clean-store",
   "version": "0.0.0",
   "description": "Browser storage technologies through a common interface. Includes events",
-  "main": "index.js",
+  "main": "store.min.js",
   "scripts": {
     "build": "rollup src/index.js -o store.js --name store --output.format umd && uglifyjs store.js -o store.min.js",
     "pretest": "npm run build",
     "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles",
     "gzip": "gzip -c store.min.js | wc -c && echo 'bytes' # Only for Unix"
   },
+  "files": [],
   "keywords": ["cookie", "cookies", "localStorage", "local", "store", "storage", "proxy", "synchronous", "clean", "interface"],
   "author": "",
   "license": "MIT",

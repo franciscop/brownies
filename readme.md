@@ -31,7 +31,40 @@ for (let val of cookies) {
 
 
 
-## Cookies
+## Getting started
+
+Install it with npm:
+
+```
+npm install clean-store
+```
+
+Then import the different parts:
+
+```js
+import { cookies, local, ... } from 'clean-store';
+const { cookies, local, ... } = require('clean-store');
+```
+
+Or use a CDN for the browser:
+
+```js
+<script src="https://cdn.jsdelivr.net/npm/clean-store"></script>
+```
+
+But then don't forget to extract them:
+
+```js
+const { cookies, local, ... } = store;
+```
+
+
+
+## Documentation
+
+The above should be enough for most cases, but here are some extra details.
+
+### Cookies
 
 It uses the [library `cookiesjs`](https://github.com/franciscop/cookies.js) underneath and wraps it through a simple getter/setter interface:
 
@@ -53,7 +86,7 @@ console.log(cookies.name);  // Francisco
 ```
 
 
-## LocalStorage
+### LocalStorage
 
 For the localStorage, we define `local` to simplify the interface:
 
