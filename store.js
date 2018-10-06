@@ -97,10 +97,10 @@ const cookies = new Proxy({}, {
 
 const local = new Proxy({}, {
   get: (target, key) => {
-    return localStorage.getItem(key);
+    return JSON.parse(localStorage.getItem(key));
   },
   set: (target, key, value) => {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, JSON.stringify(value));
     return true;
   },
   deleteProperty: (target, key) => {
