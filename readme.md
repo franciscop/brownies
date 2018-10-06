@@ -11,7 +11,7 @@ delete cookies.token;    // Eat it
 
 local.token = 42;        // Set it
 const t = local.token;   // Get it
-delete local.token;      // Remove it
+delete local.token;      // Del it
 ```
 
 You can also iterate them as expected with `Object.keys()`, `Object.values()`, `for(... in ...)` and `for (... of ...)`:
