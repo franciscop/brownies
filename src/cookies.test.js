@@ -21,4 +21,36 @@ describe('cookies', () => {
     delete cookies.name;
     expect(document.cookie).toBe("");
   });
+
+  it('can list the cookies', () => {
+    cookies.firstname = 'Francisco';
+    cookies.lastname = 'Presencia';
+    expect(Object.keys(cookies)).toEqual(['firstname', 'lastname']);
+    expect(Object.values(cookies)).toEqual(['Francisco', 'Presencia']);
+    expect(Object.entries(cookies)).toEqual([['firstname', 'Francisco'], ['lastname', 'Presencia']]);
+    delete cookies.firstname;
+    delete cookies.lastname;
+  });
+
+  it('can iterate with "in"', () => {
+    cookies.firstname = 'Francisco';
+    cookies.lastname = 'Presencia';
+    const keys = [];
+    for (let key in cookies) {
+      keys.push(key);
+    }
+    expect(Object.keys(cookies)).toEqual(['firstname', 'lastname']);
+    delete cookies.firstname;
+    delete cookies.lastname;
+  });
+
+  it('throws for the iteration since it is not yet ready', () => {
+    cookies.firstname = 'Francisco';
+    cookies.lastname = 'Presencia';
+    const values = [];
+    for (let val of cookies) {
+      values.push(val);
+    }
+    expect(values).toEqual(['Francisco', 'Presencia']);
+  });
 });

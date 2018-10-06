@@ -1,6 +1,6 @@
 # Clean Store ![gzip size](https://img.badgesize.io/franciscop/clean-store/master/store.min.js.svg?compression=gzip)
 
-A cleaner interface for browser storage technologies:
+A cleaner interface for browser storage technologies in 1kb:
 
 ```js
 import { cookies, local } from 'clean-store'
@@ -14,11 +14,26 @@ const t = local.token;    // Get it
 delete local.token;       // Forget it
 ```
 
+You can also iterate them as normal:
+
+```js
+cookies.token = 42;
+cookies.name = 'Francisco';
+
+for (let key in cookies) {
+  console.log(key, cookies[key]); // token, 42; name, 'Francisco'
+}
+
+for (let val of cookies) {
+  console.log(val); // 42, 'Francisco'
+}
+```
+
 
 
 ## Cookies
 
-It uses the [library `cookiesjs`](https://github.com/franciscop/cookies.js) and wraps it through a simple getter/setter interface:
+It uses the [library `cookiesjs`](https://github.com/franciscop/cookies.js) underneath and wraps it through a simple getter/setter interface:
 
 ```js
 import { cookies } from 'clean-store';
@@ -28,7 +43,7 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
-**Manually setting values**: values are encoded first with JSON.stringify to allow for different types, and then with encodeURIComponent to remain RFC 6265 compliant. This is implemented in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
+**Manually setting values**: values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. This is implemented in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
 
 ```js
 import { cookies } from 'clean-store';
@@ -38,9 +53,24 @@ console.log(cookies.name);  // Francisco
 ```
 
 
+## LocalStorage
+
+For the localStorage, we define `local` to simplify the interface:
+
+```js
+import { local } from 'clean-store';
+
+local.token = 42;          // Set it
+const res = local.token;   // Get it
+delete local.token;        // Lose it
+```
+
+
 
 
 ## TODO
+
+This is the documentation for the target result. Please feel free to collaborate:
 
 ## Subscribe()
 
@@ -57,6 +87,7 @@ local.token = 42;
 local.token = 'Hello';
 delete local.token;
 ```
+
 
 
 ## Options
