@@ -1,4 +1,4 @@
-# Clean Store ![gzip size](https://img.badgesize.io/franciscop/clean-store/master/store.min.js.svg?compression=gzip)
+# Clean Store [![npm install clean-store](https://img.shields.io/badge/npm%20install-clean--store-blue.svg)](https://www.npmjs.com/package/clean-store) [![gzip size](https://img.badgesize.io/franciscop/clean-store/master/store.min.js.svg?compression=gzip)](https://github.com/franciscop/clean-store/blob/master/store.min.js)
 
 A cleaner interface for browser storage technologies in 1kb:
 
@@ -11,7 +11,7 @@ delete cookies.token;     // Eat it
 
 local.token = 42;         // Set it
 const t = local.token;    // Get it
-delete local.token;       // Forget it
+delete local.token;       // Remove it
 ```
 
 You can also iterate them as expected with `Object.keys()`, `Object.values()`, `for(... in ...)` and `for (... of ...)`:
@@ -97,7 +97,7 @@ import { local } from 'clean-store';
 
 local.token = 42;          // Set it
 const res = local.token;   // Get it
-delete local.token;        // Lose it
+delete local.token;        // Remove it
 ```
 
 
