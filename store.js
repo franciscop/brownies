@@ -185,9 +185,44 @@ const local = new Proxy({}, {
   }
 });
 
+var subscriptions = [];
+
+const isBasic = value => !value || ['boolean', 'number', 'string'].includes(typeof value);
+
+const toFlat = value => {
+  if (isBasic(value)) return value;
+  return JSON.stringify(value);
+};
+
+const clone = value => {
+  if (isBasic(value)) return value;
+  return JSON.parse(JSON.stringify(value));
+};
+
+var subscribe = (obj, key, cb) => {
+  let prev = clone(obj[key]);
+  const id = setInterval(() => {
+    if (toFlat(prev) !== toFlat(obj[key])) {
+      cb(obj[key], prev);
+      prev = clone(obj[key]);
+    }
+  }, 100);
+  subscriptions.push([id, cb]);
+  return id;
+};
+
+var unsubscribe = id => {
+  if (typeof id !== 'number') {
+    id = subscriptions.find(([i, sub]) => sub === id)[0];
+  }
+  clearInterval(id);
+};
+
 exports.cookies = cookies;
 exports.local = local;
 exports.options = options;
+exports.subscribe = subscribe;
+exports.unsubscribe = unsubscribe;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
