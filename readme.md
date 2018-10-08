@@ -150,6 +150,49 @@ const res = local.token;   // Get it
 delete local.token;        // Remove it
 ```
 
+localStorage items can be set to many different standard values, and they will retain the types:
+
+```js
+local.id = 1;
+local.accepted = true;
+local.name = 'Francisco';
+local.friends = [3, 5];
+local.user = { id: 1, accepted: true, name: 'Francisco' };
+console.log(typeof local.id);               // 'number'
+console.log(typeof local.accepted);         // 'boolean'
+console.log(typeof local.name);             // 'string'
+console.log(Array.isArray(local.friends));  // true
+console.log(typeof local.user);             // 'object'
+```
+
+**Warning: manually setting values.** Values are encoded first with `JSON.stringify()` to allow for different types. If you are mixing localStorage with `clean-store`, you'll have to follow the same process:
+
+```js
+import { local } from 'clean-store';
+localStorage.setItem('name', JSON.stringify('Francisco'));
+console.log(local.name);  // Francisco
+console.log(JSON.parse(localStorage.getItem('name'))); // Francisco
+```
+
+Of course we recommend to stick to the library as much as possible for a cleaner interface:
+
+```js
+import { local } from 'clean-store';
+local.name = 'Francisco';
+console.log(local.name);  // Francisco
+```
+
+You can iterate over the items in many different standard ways as normal:
+
+```js
+Object.keys(local);
+Object.values(local);
+Object.entries(local);
+for (let key in local) {}
+for (let val of local) {}
+```
+
+
 
 ### Subscribe
 
@@ -165,6 +208,19 @@ subscribe(local, 'token', value => {
 local.token = 42;
 local.token = 'Hello';
 delete local.token;
+```
+
+Changes work even if you use the native API to change the values, or even if the changes happen on another tab:
+
+```js
+import { local, subscribe } from 'clean-store';
+
+subscribe(local, 'token', value => {
+  console.log(value);   // 42, 'Hello', undefined
+});
+
+// Note that this is the native one:
+localStorage.setItem('token', JSON.stringify(42));
 ```
 
 To unsubscribe, store the value returned by `subscribe()` and then use it with `unsubscribe()`:
