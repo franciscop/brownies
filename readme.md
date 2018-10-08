@@ -71,6 +71,21 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
+You can change the [cookies **options** (list)](](https://github.com/franciscop/cookies.js#options)) globally:
+
+```js
+import { cookies, options } from 'clean-store';
+
+cookies[options] = {
+  expires: 100 * 24 * 3600,     // The time to expire in seconds
+  domain: false,                // The domain for the cookie
+  path: '/',                    // The path for the cookie
+  secure: https ? true : false  // Require the use of https
+};
+
+cookies.token = 24;  // Will be stored for ~100 days
+```
+
 Cookies can be set to many different standard values, and they will retain the types. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
 
 ```js

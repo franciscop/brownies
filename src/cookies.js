@@ -1,4 +1,5 @@
 import engine from '../lib/cookies';
+import options from './options';
 
 const getAll = () => {
   const pairs = document.cookie.split(";");
@@ -20,10 +21,19 @@ const cookies = new Proxy({}, {
         while(all.length) yield all.shift();
       };
     }
+    if (key === options) {
+      return engine;
+    }
     return engine(key);
   },
 
   set (target, key, value) {
+    if (key === options) {
+      for (let key in value) {
+        engine[key] = value[key];
+        return true;
+      }
+    }
     engine({ [key]: value });
     return true;
   },
