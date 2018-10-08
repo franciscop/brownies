@@ -14,6 +14,20 @@ const t = local.token;   // Get it
 delete local.token;      // Del it
 ```
 
+Subscribe to changes in any of the objects:
+
+```js
+import { local, subscribe } from 'clean-store';
+
+subscribe(local, 'token', value => {
+  console.log(value);   // 42, 'Hello', undefined
+});
+
+local.token = 42;
+local.token = 'Hello';
+delete local.token;
+```
+
 You can also [iterate them as expected](https://github.com/franciscop/clean-store/blob/master/src/cookies.test.js) with `Object.keys()`, `Object.values()`, etc:
 
 ```js
@@ -87,6 +101,8 @@ cookies[options] = {
 cookies.token = 24;  // Will be stored for ~100 days
 ```
 
+> **WARNING**: you should import `options` and then use it as a variable like `cookies[options]`. You CANNOT do ~~`cookies.options`~~ nor ~~`cookies['options']`~~.
+
 Cookies can be set to many different standard values, and they will retain the types. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
 
 ```js
@@ -133,3 +149,68 @@ local.token = 42;          // Set it
 const res = local.token;   // Get it
 delete local.token;        // Remove it
 ```
+
+
+### Subscribe
+
+Subscribe allows you to listen to changes to *any* object, including yours. It is **asynchronous** and the callback order is not guaranteed.
+
+```js
+import { local, subscribe } from 'clean-store';
+
+subscribe(local, 'token', value => {
+  console.log(value);   // 42, 'Hello', undefined
+});
+
+local.token = 42;
+local.token = 'Hello';
+delete local.token;
+```
+
+To unsubscribe, store the value returned by `subscribe()` and then use it with `unsubscribe()`:
+
+```js
+import { cookies, subscribe, unsubscribe } from 'clean-store';
+
+const id = subscribe(cookies, 'token', token => {
+  console.log(token);
+});
+
+unsubscribe(id);
+```
+
+You can also unsubscribe by the callback, which is very useful in a React context:
+
+```js
+import { cookies, subscribe, unsubscribe } from 'clean-store';
+
+const cb = token => console.log('NEW TOKEN:', token);
+subscribe(cookies, 'token', cb);
+unsubscribe(cb);
+```
+
+For instance, if you want to keep the user points synced across tabs with localStorage:
+
+```js
+import { local, subscribe, unsubscribe } from 'clean-store';
+
+export default class extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = { points: local.points };
+    this.updatePoints = this.updatePoints.bind(this);
+    subscribe(local, 'points', this.updatePoints);
+  }
+  updatePoints (points) {
+    this.setState({ points });
+  }
+  componentWillUnmount () {
+    unsubscribe(this.updatePoints);
+  }
+  render () {
+    return <div>Points: {this.state.points}</div>;
+  }
+}
+```
+
+> Note: `subscribe()` implementation is very basic right now using `setInterval()` internally. If you are going to use hundreds of `subscribe()` or need more realtime data this might not be well suited.
