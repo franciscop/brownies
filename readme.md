@@ -71,13 +71,12 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
-You can change the cookies **options** ([list](https://github.com/franciscop/cookies.js#options)) globally:
-
-> Note: cookies are set for 100 days by default
+You can change the [cookies **options**](https://github.com/franciscop/cookies.js#options) globally:
 
 ```js
 import { cookies, options } from 'clean-store';
 
+// Options with its defaults. Note that expires is set to 100 days
 cookies[options] = {
   expires: 100 * 24 * 3600,     // The time to expire in seconds
   domain: false,                // The domain for the cookie
