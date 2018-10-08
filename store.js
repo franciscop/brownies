@@ -81,6 +81,9 @@ var cookies$2 = function (data, opt) {
   return cookies$2;
 };
 
+// Thanks Keith Cirkel! https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
+var options = Symbol('options');
+
 const getAll = () => {
   const pairs = document.cookie.split(";");
   const cookies = {};
@@ -101,10 +104,19 @@ const cookies = new Proxy({}, {
         while(all.length) yield all.shift();
       };
     }
+    if (key === options) {
+      return cookies$2;
+    }
     return cookies$2(key);
   },
 
   set (target, key, value) {
+    if (key === options) {
+      for (let key in value) {
+        cookies$2[key] = value[key];
+        return true;
+      }
+    }
     cookies$2({ [key]: value });
     return true;
   },
@@ -175,6 +187,7 @@ const local = new Proxy({}, {
 
 exports.cookies = cookies;
 exports.local = local;
+exports.options = options;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
