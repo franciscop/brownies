@@ -1,6 +1,6 @@
 # Clean Store [![npm install clean-store](https://img.shields.io/badge/npm%20install-clean--store-blue.svg)](https://www.npmjs.com/package/clean-store) [![gzip size](https://img.badgesize.io/franciscop/clean-store/master/store.min.js.svg?compression=gzip)](https://github.com/franciscop/clean-store/blob/master/store.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-green.svg)](https://github.com/franciscop/clean-store/blob/master/package.json)
 
-A clean interface for browser storage technologies in 1kb:
+A clean interface for browser storage technologies in 1.5kb:
 
 ```js
 import { cookies, local } from 'clean-store';
