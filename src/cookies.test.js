@@ -1,4 +1,7 @@
 import cookies from './cookies';
+import options from './options';
+import delay from 'delay';
+
 
 describe('cookies', () => {
   it('is defined', () => {
@@ -68,5 +71,50 @@ describe('cookies', () => {
     for (let key in cookies) {
       delete cookies[key];
     }
+  });
+
+  describe('options', () => {
+    it('will expire naturally', async () => {
+      cookies[options] = {};
+      expect(cookies.id).toBe(undefined);
+      cookies.id = 10;
+      await delay(100);
+      expect(cookies.id).toBe(10);
+      delete cookies.id;
+      await delay(100);
+      expect(cookies.id).toBe(undefined);
+    });
+
+    it('can set the expiration', async () => {
+      cookies[options] = { expires: 1 };
+      expect(cookies.id).toBe(undefined);
+      cookies.id = 10;
+      expect(cookies.id).toBe(10);
+      await delay(1100);
+      expect(cookies[options].expires).toBe(1);
+      expect(cookies.id).toBe(undefined);
+    });
+
+    it('can set the expiration', async () => {
+      cookies[options].expires = 2;
+      expect(cookies.id).toBe(undefined);
+      cookies.id = 10;
+      expect(cookies.id).toBe(10);
+      expect(cookies[options].expires).toBe(2);
+      await delay(1100);
+      expect(cookies.id).toBe(10);
+      await delay(1000);
+      expect(cookies.id).toBe(undefined);
+    });
+
+    // How to test session cookies with jest? No idea :v
+    it.skip('can set session cookies', async () => {
+      cookies[options] = { expires: 0 };
+      expect(cookies.id).toBe(undefined);
+      cookies.id = 10;
+      expect(cookies.id).toBe(10);
+      await delay(1000);
+      expect(cookies.id).toBe(undefined);
+    });
   });
 });
