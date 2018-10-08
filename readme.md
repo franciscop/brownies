@@ -71,7 +71,9 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
-You can change the [cookies **options** (list)](](https://github.com/franciscop/cookies.js#options)) globally:
+You can change the cookies **options** ([list](https://github.com/franciscop/cookies.js#options)) globally:
+
+> Note: cookies are set for 100 days by default
 
 ```js
 import { cookies, options } from 'clean-store';
