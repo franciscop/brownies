@@ -60,7 +60,7 @@ const { cookies, local, ... } = require('clean-store');
 
 Or use a CDN for the browser:
 
-```js
+```html
 <script src="https://cdn.jsdelivr.net/npm/clean-store"></script>
 <script>
   const { cookies, local, ... } = store;
