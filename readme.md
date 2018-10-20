@@ -1,9 +1,9 @@
-# Brownies [![npm install brownies](https://img.shields.io/badge/npm%20install-clean--store-blue.svg)](https://www.npmjs.com/package/brownies) [![gzip size](https://img.badgesize.io/franciscop/brownies/master/brownies.min.js.svg?compression=gzip)](https://github.com/franciscop/brownies/blob/master/brownies.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-green.svg)](https://github.com/franciscop/brownies/blob/master/package.json)
+# Brownies [![npm install brownies](https://img.shields.io/badge/npm%20install-brownies-blue.svg)](https://www.npmjs.com/package/brownies) [![gzip size](https://img.badgesize.io/franciscop/brownies/master/brownies.min.js.svg?compression=gzip)](https://github.com/franciscop/brownies/blob/master/brownies.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-green.svg)](https://github.com/franciscop/brownies/blob/master/package.json)
 
 Tastier cookies and local/session storage in 1.5kb:
 
 ```js
-import { cookies, local, session } from 'brownies';
+import { cookies, local } from 'brownies';
 
 cookies.token = 42;      // Set it
 const t = cookies.token; // Get it
@@ -17,15 +17,15 @@ delete local.token;      // Del it
 Subscribe to changes in any of the objects:
 
 ```js
-import { local, subscribe } from 'brownies';
+import { session, subscribe } from 'brownies';
 
-subscribe(local, 'token', value => {
+subscribe(session, 'token', value => {
   console.log(value);   // 42, 'Hello', undefined
 });
 
-local.token = 42;
-local.token = 'Hello';
-delete local.token;
+session.token = 42;
+session.token = 'Hello';
+delete session.token;
 ```
 
 You can also [iterate them as expected](https://github.com/franciscop/brownies/blob/master/src/cookies.test.js) with `Object.keys()`, `Object.values()`, etc:
@@ -81,6 +81,47 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
+<details>
+<summary><strong>Warning: Manually setting cookies</strong> with <code>document.cookie</code> or server-side [click for details]</summary>
+
+Values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. See the details in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
+
+```js
+import { cookies } from 'brownies';
+document.cookie = `name=${encodeURIComponent(JSON.stringify('Francisco'))}`
+console.log(cookies.name);  // Francisco
+```
+
+</details>
+
+Cookies can be set to many different standard values, and they will retain the types. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
+
+```js
+cookies.id = 1;
+cookies.accepted = true;
+cookies.name = 'Francisco';
+cookies.friends = [3, 5];
+cookies.user = { id: 1, accepted: true, name: 'Francisco' };
+console.log(typeof cookies.id);               // 'number'
+console.log(typeof cookies.accepted);         // 'boolean'
+console.log(typeof cookies.name);             // 'string'
+console.log(Array.isArray(cookies.friends));  // true
+console.log(typeof cookies.user);             // 'object'
+```
+
+You can iterate over the cookies in many different standard ways as normal:
+
+```js
+Object.keys(cookies);
+Object.values(cookies);
+Object.entries(cookies);
+for (let key in cookies) {}
+for (let val of cookies) {}
+```
+
+
+### Options
+
 You can change the [cookies **options**](https://github.com/franciscop/cookies.js#options) globally:
 
 ```js
@@ -99,44 +140,12 @@ cookies.token = 24;  // Will be stored for ~100 days
 
 > **WARNING**: you should import `options` and then use it as a variable like `cookies[options]`. You CANNOT do ~~`cookies.options`~~ nor ~~`cookies['options']`~~.
 
-Cookies can be set to many different standard values, and they will retain the types. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
-
-```js
-cookies.id = 1;
-cookies.accepted = true;
-cookies.name = 'Francisco';
-cookies.friends = [3, 5];
-cookies.user = { id: 1, accepted: true, name: 'Francisco' };
-console.log(typeof cookies.id);               // 'number'
-console.log(typeof cookies.accepted);         // 'boolean'
-console.log(typeof cookies.name);             // 'string'
-console.log(Array.isArray(cookies.friends));  // true
-console.log(typeof cookies.user);             // 'object'
-```
-
-**Warning: manually setting values.** Values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. See the details in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
-
-```js
-import { cookies } from 'brownies';
-document.cookie = `name=${encodeURIComponent(JSON.stringify('Francisco'))}`
-console.log(cookies.name);  // Francisco
-```
-
-You can iterate over the cookies in many different standard ways as normal:
-
-```js
-Object.keys(cookies);
-Object.values(cookies);
-Object.entries(cookies);
-for (let key in cookies) {}
-for (let val of cookies) {}
-```
 
 
 
 ## LocalStorage
 
-For the localStorage, we define `local` to simplify the interface:
+For `localStorage`, we define `local` to simplify the interface:
 
 ```js
 import { local } from 'brownies';
@@ -145,6 +154,33 @@ local.token = 42;          // Set it
 const res = local.token;   // Get it
 delete local.token;        // Remove it
 ```
+
+<details>
+<summary><strong>Warning: Manually setting values</strong> with <code>localStorage</code> [click for details]</summary>
+
+The values are encoded by `brownies` with `JSON.stringify()` to maintain the types. If you are want to manually set a value with `localStorage.setItem()` that you will later read with `brownies`, you'll have to stringify it first:
+
+```js
+localStorage.setItem('name', JSON.stringify('Francisco'));
+console.log(local.name);  // Francisco
+```
+
+Same the other way around, if you want to read a value set by `brownies` with plain Javascript, you'll have to parse it first:
+
+```js
+local.name = 'Francisco';
+console.log(JSON.parse(localStorage.getItem('name'))); // Francisco
+```
+
+Of course we recommend to stick to the library as much as possible for a cleaner interface:
+
+```js
+import { local } from 'brownies';
+local.name = 'Francisco';
+console.log(local.name);  // Francisco
+```
+
+</details>
 
 localStorage items can be set to many different standard values, and they will retain the types:
 
@@ -161,21 +197,14 @@ console.log(Array.isArray(local.friends));  // true
 console.log(typeof local.user);             // 'object'
 ```
 
-**Warning: manually setting values.** Values are encoded first with `JSON.stringify()` to allow for different types. If you are mixing localStorage with `brownies`, you'll have to follow the same process:
+To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
 ```js
-import { local } from 'brownies';
-localStorage.setItem('name', JSON.stringify('Francisco'));
-console.log(local.name);  // Francisco
-console.log(JSON.parse(localStorage.getItem('name'))); // Francisco
-```
-
-Of course we recommend to stick to the library as much as possible for a cleaner interface:
-
-```js
-import { local } from 'brownies';
-local.name = 'Francisco';
-console.log(local.name);  // Francisco
+console.log(local.id);  // null
+local.id = 1;
+console.log(local.id);  // 1
+delete local.id;
+console.log(local.id);  // null
 ```
 
 You can iterate over the items in many different standard ways as normal:
@@ -188,11 +217,20 @@ for (let key in local) {}
 for (let val of local) {}
 ```
 
+So if you wanted to delete them all, you can do so by looping them easily:
+
+```js
+for (let key in local) {
+  console.log('Deleting:', key, local[key]);
+  delete local[key];
+}
+```
+
 
 
 ## SessionStorage
 
-For the localStorage, we define `local` to simplify the interface:
+For the `sessionStorage`, we define `session` to simplify the interface:
 
 ```js
 import { session } from 'brownies';
@@ -201,6 +239,33 @@ session.token = 42;          // Set it
 const res = session.token;   // Get it
 delete session.token;        // Remove it
 ```
+
+<details>
+<summary><strong>Warning: Manually setting values</strong> with <code>sessionStorage</code> [click for details]</summary>
+
+The values are encoded by `brownies` with `JSON.stringify()` to maintain the types. If you are want to manually set a value with `sessionStorage.setItem()` that you will later read with `brownies`, you'll have to stringify it first:
+
+```js
+sessionStorage.setItem('name', JSON.stringify('Francisco'));
+console.log(session.name);  // Francisco
+```
+
+Same the other way around, if you want to read a value set by `brownies` with plain Javascript, you'll have to parse it first:
+
+```js
+session.name = 'Francisco';
+console.log(JSON.parse(sessionStorage.getItem('name'))); // Francisco
+```
+
+Of course we recommend to stick to the library as much as possible for a cleaner interface:
+
+```js
+import { session } from 'brownies';
+session.name = 'Francisco';
+console.log(session.name);  // Francisco
+```
+
+</details>
 
 sessionStorage items can be set to many different standard values, and they will retain the types:
 
@@ -217,6 +282,16 @@ console.log(Array.isArray(session.friends));  // true
 console.log(typeof session.user);             // 'object'
 ```
 
+To delete a item, you have to call `delete` on it as you would normally do with object properties:
+
+```js
+console.log(session.id);  // null
+session.id = 1;
+console.log(session.id);  // 1
+delete session.id;
+console.log(session.id);  // null
+```
+
 You can iterate over the items in many different standard ways as normal:
 
 ```js
@@ -227,27 +302,14 @@ for (let key in session) {}
 for (let val of session) {}
 ```
 
-<details>
-<summary><strong>Warning: Manually setting values</strong> with <code>sessionStorage</code> [click to see more]</summary>
-
-Values are encoded first with `JSON.stringify()` to allow for different types. If you are mixing sessionStorage with `brownies`, you'll have to follow the same process:
+So if you wanted to delete them all, you can do so by looping them easily:
 
 ```js
-import { session } from 'brownies';
-sessionStorage.setItem('name', JSON.stringify('Francisco'));
-console.log(session.name);  // Francisco
-console.log(JSON.parse(sessionStorage.getItem('name'))); // Francisco
+for (let key in session) {
+  console.log('Deleting:', key, session[key]);
+  delete session[key];
+}
 ```
-
-Of course we recommend to stick to the library as much as possible for a cleaner interface:
-
-```js
-import { session } from 'brownies';
-session.name = 'Francisco';
-console.log(session.name);  // Francisco
-```
-
-</details>
 
 
 
