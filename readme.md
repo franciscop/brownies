@@ -417,4 +417,4 @@ Brownies are [technically](https://wow-cookies.com/brownies-are-they-cookies-or-
 
 This library was previously named `clean-store`, but I never really liked that name.
 
-The stars in this repository [were transferred from the previous repository](https://francisco.io/blog/transfering-github-stars/).
+The stars in this repository [were transferred from the previous repository](https://francisco.io/blog/transferring-github-stars/).
