@@ -416,3 +416,5 @@ My former coworker made delicious brownies when leaving the company and asked me
 Brownies are [technically](https://wow-cookies.com/brownies-are-they-cookies-or-cake/) [cookies](https://www.quora.com/Are-brownies-classified-as-a-cake-or-a-cookie) because they are finger food.
 
 This library was previously named `clean-store`, but I never really liked that name.
+
+The stars in this repository [were transferred from the previous repository](https://francisco.io/blog/transfering-github-stars/).
