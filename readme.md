@@ -407,7 +407,7 @@ export default class extends React.Component {
 
 ### Trivia
 
-My coworker made delicious brownies when leaving the current job and asked me to name a library brownies. I thought it was a fantastic idea, since brownies are tastier cookies after all 🙂.
+My former coworker made delicious brownies when leaving the company and asked me to name a library brownies. I thought it was a fantastic idea, since brownies are tastier cookies after all 🙂.
 
 Brownies are [technically](https://wow-cookies.com/brownies-are-they-cookies-or-cake/) [cookies](https://www.quora.com/Are-brownies-classified-as-a-cake-or-a-cookie) because they are finger food.
 
