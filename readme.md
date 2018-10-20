@@ -402,3 +402,13 @@ export default class extends React.Component {
 ```
 
 > Note: `subscribe()` implementation is very basic right now using `setInterval()` internally. If you are going to use hundreds of `subscribe()` or need more realtime data this might not be well suited.
+
+
+
+### Trivia
+
+My coworker made delicious brownies when leaving the current job and asked me to name a library brownies. I thought it was a fantastic idea, since brownies are tastier cookies after all 🙂.
+
+Brownies are [technically](https://wow-cookies.com/brownies-are-they-cookies-or-cake/) [cookies](https://www.quora.com/Are-brownies-classified-as-a-cake-or-a-cookie) because they are finger food.
+
+This library was previously named `clean-store`, but I never really liked that name.
