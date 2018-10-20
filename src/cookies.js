@@ -1,10 +1,25 @@
 import options from './options';
 import engine from '../lib/cookies';
 
-// THOSE DO NOT WORK :(
-// import engine from '../node_modules/cookiesjs/cookies.min.js';
-// import engine from 'cookiesjs';
-// import engine from '../node_modules/cookiesjs/cookies.js';
+// Get a single item from the cookies (except for getting the options or iterator)
+const get = (target, key) => {
+  if (key === Symbol.iterator) return getIterator();
+  if (key === options) return engine;
+  const value = engine(key);
+  return (typeof value === 'undefined') ? null : value;
+};
+
+// Set a specific cookie (except for setting the options)
+const set = (target, key, value) => {
+  if (key === options) {
+    for (let key in value) {
+      engine[key] = value[key];
+      return true;
+    }
+  }
+  engine({ [key]: value });
+  return true;
+};
 
 const getAll = () => {
   const pairs = document.cookie.split(";");
@@ -12,56 +27,27 @@ const getAll = () => {
   for (var i=0; i<pairs.length; i++){
     const pair = pairs[i].split("=");
     const key = (pair[0] + '').trim();
-    cookies[key] = engine(key);
+    cookies[key] = get({}, key);
   }
   return cookies;
 };
 
-const cookies = new Proxy({}, {
-  get (target, key) {
-    // For the `for (let key of value)` iteration
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of
-    if (key === Symbol.iterator) {
-      const all = Object.values(getAll());
-      return function* () {
-        while(all.length) yield all.shift();
-      };
-    }
-    if (key === options) {
-      return engine;
-    }
-    const value = engine(key);
-    return (typeof value === 'undefined') ? null : value;
-  },
+// This is for the `for (let key of value)` iteration
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of
+const getIterator = () => {
+  const all = Object.values(getAll());
+  return function* () {
+    while(all.length) yield all.shift();
+  };
+}
 
-  set (target, key, value) {
-    if (key === options) {
-      for (let key in value) {
-        engine[key] = value[key];
-        return true;
-      }
-    }
-    engine({ [key]: value });
-    return true;
-  },
+const deleteProperty = (target, key) => engine({ [key]: null });
 
-  deleteProperty (target, key) {
-    engine({ [key]: null });
-    return true;
-  },
+// Allow to do `for (let key in cookies) { ... }`
+const getOwnPropertyDescriptor = () => ({ enumerable: true, configurable: true });
 
-  // Allow to do `for (let key in cookies) { ... }`
-  getOwnPropertyDescriptor(k) {
-    return {
-      enumerable: true,
-      configurable: true,
-    };
-  },
+// Allow to do `Object.keys(cookies)`
+const ownKeys = () => Object.keys(getAll());
 
-  ownKeys (target) {
-    return Object.keys(getAll());
-  }
-});
-
-
-export default cookies;
+const traps = { get, set, deleteProperty, getOwnPropertyDescriptor, ownKeys };
+export default new Proxy({}, traps);
