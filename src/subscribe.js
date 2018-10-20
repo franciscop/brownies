@@ -14,12 +14,12 @@ const clone = value => {
 
 export default (obj, key, cb) => {
   let prev = clone(obj[key]);
-  const id = setInterval(() => {
-    if (toFlat(prev) !== toFlat(obj[key])) {
-      cb(obj[key], prev);
-      prev = clone(obj[key]);
-    }
-  }, 100);
-  subscriptions.push([id, cb]);
+  const check = () => {
+    if (toFlat(prev) === toFlat(obj[key])) return;
+    cb(obj[key], prev);
+    prev = clone(obj[key]);
+  };
+  const id = setInterval(check, 100);
+  subscriptions.push({ id, key, check, cb });
   return id;
 };

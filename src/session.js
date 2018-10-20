@@ -1,3 +1,5 @@
+import subscriptions from './subscriptions';
+
 const getAll = () => {
   const all = {};
   for (var key in sessionStorage){
@@ -23,6 +25,7 @@ const local = new Proxy({}, {
 
   set: (target, key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
+    subscriptions.filter(sub => sub.key === key).forEach(({ check }) => check());
     return true;
   },
 

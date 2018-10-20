@@ -328,19 +328,21 @@ for (let key in session) {
 
 ## Subscribe
 
-Subscribe allows you to listen to changes to *any* object, including yours. It is **asynchronous** and the callback order is not guaranteed.
+Subscribe allows you to listen to changes to *any* object, including yours:
 
 ```js
 import { local, subscribe } from 'brownies';
 
 subscribe(local, 'token', value => {
-  console.log(value);   // 42, 'Hello', null
+  console.log(value);   // 42, null, 'Hello'
 });
 
 local.token = 42;
-local.token = 'Hello';
 delete local.token;
+local.token = 'Hello';
 ```
+
+**Warning**: `subscribe()` cannot assure that it is synchronous nor that the order is maintained, so the above might not trigger if the end value is the same as the initial value or middle steps might not be shown.
 
 Changes work even if you use the native API to change the values, or even if the changes happen on another tab:
 

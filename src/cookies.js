@@ -1,5 +1,6 @@
 import options from './options';
 import engine from '../lib/cookies';
+import subscriptions from './subscriptions';
 
 // Get a single item from the cookies (except for getting the options or iterator)
 const get = (target, key) => {
@@ -18,6 +19,7 @@ const set = (target, key, value) => {
     }
   }
   engine({ [key]: value });
+  subscriptions.filter(sub => sub.key === key).forEach(({ check }) => check());
   return true;
 };
 
