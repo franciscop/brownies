@@ -1,4 +1,4 @@
-# Brownies [![npm install brownies](https://img.shields.io/badge/npm%20install-brownies-blue.svg)](https://www.npmjs.com/package/brownies) [![gzip size](https://img.badgesize.io/franciscop/brownies/master/brownies.min.js.svg?compression=gzip)](https://github.com/franciscop/brownies/blob/master/brownies.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-green.svg)](https://github.com/franciscop/brownies/blob/master/package.json)
+# Brownies [![npm install brownies](https://img.shields.io/badge/npm%20install-brownies-blue.svg)](https://www.npmjs.com/package/brownies) [![gzip size](https://img.badgesize.io/franciscop/brownies/master/brownies.min.js.svg?compression=gzip)](https://github.com/franciscop/brownies/blob/master/brownies.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-green.svg)](https://github.com/franciscop/brownies/blob/master/package.json) [![support](https://img.shields.io/badge/es-6-blue.svg)](https://caniuse.com/#feat=proxy)
 
 Tastier cookies and local/session storage in 1.5kb:
 
