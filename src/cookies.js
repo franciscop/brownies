@@ -11,7 +11,8 @@ const getAll = () => {
   const cookies = {};
   for (var i=0; i<pairs.length; i++){
     const pair = pairs[i].split("=");
-    cookies[(pair[0]+'').trim()] = JSON.parse(unescape(pair[1]));
+    const key = (pair[0] + '').trim();
+    cookies[key] = engine(key);
   }
   return cookies;
 };
