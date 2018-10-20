@@ -405,8 +405,6 @@ export default class extends React.Component {
 }
 ```
 
-> Note: `subscribe()` implementation is very basic right now using `setInterval()` internally. If you are going to use hundreds of `subscribe()` or need more realtime data this might not be well suited.
-
 
 
 ### Trivia
