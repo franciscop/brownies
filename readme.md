@@ -20,7 +20,7 @@ Subscribe to changes in any of the objects:
 import { session, subscribe } from 'brownies';
 
 subscribe(session, 'token', value => {
-  console.log(value);   // 42, 'Hello', undefined
+  console.log(value);   // 42, 'Hello', null
 });
 
 session.token = 42;
@@ -63,6 +63,7 @@ Or use a CDN for the browser:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/brownies"></script>
 <script>
+  // Extract it since we only define `brownies` globally
   const { cookies, local, ... } = brownies;
 </script>
 ```
@@ -81,20 +82,7 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
-<details>
-<summary><strong>Warning: Manually setting cookies</strong> with <code>document.cookie</code> or server-side [click for details]</summary>
-
-Values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. See the details in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
-
-```js
-import { cookies } from 'brownies';
-document.cookie = `name=${encodeURIComponent(JSON.stringify('Francisco'))}`
-console.log(cookies.name);  // Francisco
-```
-
-</details>
-
-Cookies can be set to many different standard values, and they will retain the types. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
+Cookies will retain the types that is set. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
 
 ```js
 cookies.id = 1;
@@ -108,6 +96,31 @@ console.log(typeof cookies.name);             // 'string'
 console.log(Array.isArray(cookies.friends));  // true
 console.log(typeof cookies.user);             // 'object'
 ```
+
+<details>
+<summary><strong>Warning: Manually setting cookies</strong> with <code>document.cookie</code> or server-side [click for details]</summary>
+
+Values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. See the details in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
+
+```js
+import { cookies } from 'brownies';
+document.cookie = `name=${encodeURIComponent(JSON.stringify('Francisco'))}`
+console.log(cookies.name);  // Francisco
+```
+
+</details>
+
+To delete a item, you have to call `delete` on it as you would normally do with object properties:
+
+```js
+console.log(cookies.id);  // null
+cookies.id = 1;
+console.log(cookies.id);  // 1
+delete cookies.id;
+console.log(cookies.id);  // null
+```
+
+> Note: the default value for deleted cookies is set to `null` to be consistent with other local storage technologies.
 
 You can iterate over the cookies in many different standard ways as normal:
 
@@ -155,6 +168,21 @@ const res = local.token;   // Get it
 delete local.token;        // Remove it
 ```
 
+localStorage items can be set to many different standard values, and they will retain the types:
+
+```js
+local.id = 1;
+local.accepted = true;
+local.name = 'Francisco';
+local.friends = [3, 5];
+local.user = { id: 1, accepted: true, name: 'Francisco' };
+console.log(typeof local.id);               // 'number'
+console.log(typeof local.accepted);         // 'boolean'
+console.log(typeof local.name);             // 'string'
+console.log(Array.isArray(local.friends));  // true
+console.log(typeof local.user);             // 'object'
+```
+
 <details>
 <summary><strong>Warning: Manually setting values</strong> with <code>localStorage</code> [click for details]</summary>
 
@@ -181,21 +209,6 @@ console.log(local.name);  // Francisco
 ```
 
 </details>
-
-localStorage items can be set to many different standard values, and they will retain the types:
-
-```js
-local.id = 1;
-local.accepted = true;
-local.name = 'Francisco';
-local.friends = [3, 5];
-local.user = { id: 1, accepted: true, name: 'Francisco' };
-console.log(typeof local.id);               // 'number'
-console.log(typeof local.accepted);         // 'boolean'
-console.log(typeof local.name);             // 'string'
-console.log(Array.isArray(local.friends));  // true
-console.log(typeof local.user);             // 'object'
-```
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
@@ -240,6 +253,21 @@ const res = session.token;   // Get it
 delete session.token;        // Remove it
 ```
 
+sessionStorage items can be set to many different standard values, and they will retain the types:
+
+```js
+session.id = 1;
+session.accepted = true;
+session.name = 'Francisco';
+session.friends = [3, 5];
+session.user = { id: 1, accepted: true, name: 'Francisco' };
+console.log(typeof session.id);               // 'number'
+console.log(typeof session.accepted);         // 'boolean'
+console.log(typeof session.name);             // 'string'
+console.log(Array.isArray(session.friends));  // true
+console.log(typeof session.user);             // 'object'
+```
+
 <details>
 <summary><strong>Warning: Manually setting values</strong> with <code>sessionStorage</code> [click for details]</summary>
 
@@ -266,21 +294,6 @@ console.log(session.name);  // Francisco
 ```
 
 </details>
-
-sessionStorage items can be set to many different standard values, and they will retain the types:
-
-```js
-session.id = 1;
-session.accepted = true;
-session.name = 'Francisco';
-session.friends = [3, 5];
-session.user = { id: 1, accepted: true, name: 'Francisco' };
-console.log(typeof session.id);               // 'number'
-console.log(typeof session.accepted);         // 'boolean'
-console.log(typeof session.name);             // 'string'
-console.log(Array.isArray(session.friends));  // true
-console.log(typeof session.user);             // 'object'
-```
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
@@ -321,7 +334,7 @@ Subscribe allows you to listen to changes to *any* object, including yours. It i
 import { local, subscribe } from 'brownies';
 
 subscribe(local, 'token', value => {
-  console.log(value);   // 42, 'Hello', undefined
+  console.log(value);   // 42, 'Hello', null
 });
 
 local.token = 42;
@@ -335,7 +348,7 @@ Changes work even if you use the native API to change the values, or even if the
 import { local, subscribe } from 'brownies';
 
 subscribe(local, 'token', value => {
-  console.log(value);   // 42, 'Hello', undefined
+  console.log(value);   // 42, 'Hello', null
 });
 
 // Note that this is the native one:

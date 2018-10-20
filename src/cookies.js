@@ -29,7 +29,8 @@ const cookies = new Proxy({}, {
     if (key === options) {
       return engine;
     }
-    return engine(key);
+    const value = engine(key);
+    return (typeof value === 'undefined') ? null : value;
   },
 
   set (target, key, value) {

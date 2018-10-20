@@ -9,11 +9,11 @@ describe('cookies', () => {
   });
 
   it('can set, read and remove cookies', () => {
-    expect(cookies.name).toBe(undefined);
+    expect(cookies.name).toBe(null);
     cookies.name = 'Francisco';
     expect(cookies.name).toBe('Francisco');
     delete cookies.name;
-    expect(cookies.name).toBe(undefined);
+    expect(cookies.name).toBe(null);
   });
 
   it('does work with the underlying engine', () => {
@@ -76,45 +76,45 @@ describe('cookies', () => {
   describe('options', () => {
     it('will expire naturally', async () => {
       cookies[options] = {};
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
       cookies.id = 10;
       await delay(100);
       expect(cookies.id).toBe(10);
       delete cookies.id;
       await delay(100);
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
     });
 
     it('can set the expiration', async () => {
       cookies[options] = { expires: 1 };
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
       cookies.id = 10;
       expect(cookies.id).toBe(10);
       await delay(1100);
       expect(cookies[options].expires).toBe(1);
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
     });
 
     it('can set the expiration', async () => {
       cookies[options].expires = 2;
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
       cookies.id = 10;
       expect(cookies.id).toBe(10);
       expect(cookies[options].expires).toBe(2);
       await delay(1100);
       expect(cookies.id).toBe(10);
       await delay(1000);
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
     });
 
     // How to test session cookies with jest? No idea :v
     it.skip('can set session cookies', async () => {
       cookies[options] = { expires: 0 };
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
       cookies.id = 10;
       expect(cookies.id).toBe(10);
       await delay(1000);
-      expect(cookies.id).toBe(undefined);
+      expect(cookies.id).toBe(null);
     });
   });
 });
