@@ -228,7 +228,7 @@ for (let val of session) {}
 ```
 
 <details>
-<summary>**Warning: Manually setting values** with `sessionStorage` [click to see more]</summary>
+<summary><strong>Warning: Manually setting values</strong> with <code>sessionStorage</code> [click to see more]</summary>
 
 Values are encoded first with `JSON.stringify()` to allow for different types. If you are mixing sessionStorage with `brownies`, you'll have to follow the same process:
 
