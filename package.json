@@ -1,17 +1,18 @@
 {
   "name": "brownies",
   "version": "0.1.0",
-  "description": "Tastier cookies and local/session Storage. Includes onChange events",
+  "description": "🍫 Tastier cookies and local/session storage in 1.5kb. Includes subscribe() events for changes.",
   "main": "brownies.min.js",
   "scripts": {
-    "build": "rollup brownies.js --name brownies --output.format umd | uglifyjs -o brownies.min.js",
+    "build": "npm run copy && rollup brownies.js --name brownies --output.format umd | uglifyjs -o brownies.min.js",
     "copy": "cp ./node_modules/cookiesjs/cookies.js ./lib/cookies.js",
-    "pretest": "npm run copy && npm run build",
+    "pretest": "npm run build",
     "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles --runInBand",
     "gzip": "gzip -c brownies.min.js | wc -c && echo 'bytes' # Only for Unix"
   },
   "files": [],
   "keywords": [
+    "brownies",
     "cookie",
     "cookies",
     "localStorage",
