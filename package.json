@@ -1,13 +1,14 @@
 {
-  "name": "clean-store",
-  "version": "1.0.1",
-  "description": "Browser storage technologies through a common interface. Includes events",
-  "main": "store.min.js",
+  "name": "brownies",
+  "version": "0.1.0",
+  "description": "Tastier cookies and local/session Storage. Includes onChange events",
+  "main": "brownies.min.js",
   "scripts": {
-    "build": "rollup src/index.js -o store.js --name store --output.format umd && uglifyjs store.js -o store.min.js",
-    "pretest": "npm run build",
+    "build": "rollup brownies.js --name brownies --output.format umd | uglifyjs -o brownies.min.js",
+    "copy": "cp ./node_modules/cookiesjs/cookies.js ./lib/cookies.js",
+    "pretest": "npm run copy && npm run build",
     "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles --runInBand",
-    "gzip": "gzip -c store.min.js | wc -c && echo 'bytes' # Only for Unix"
+    "gzip": "gzip -c brownies.min.js | wc -c && echo 'bytes' # Only for Unix"
   },
   "files": [],
   "keywords": [
@@ -25,16 +26,17 @@
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/franciscop/clean-store.git"
+    "url": "git+https://github.com/franciscop/brownies.git"
   },
   "bugs": {
-    "url": "https://github.com/franciscop/clean-store/issues"
+    "url": "https://github.com/franciscop/brownies/issues"
   },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-jest": "^21.2.0",
     "babel-preset-env": "^1.6.1",
+    "cookiesjs": "^3.0.1",
     "delay": "^4.0.1",
     "rollup": "^0.50.0",
     "sinon": "^6.3.5",

@@ -1,5 +1,10 @@
-import engine from '../lib/cookies';
 import options from './options';
+import engine from '../lib/cookies';
+
+// THOSE DO NOT WORK :(
+// import engine from '../node_modules/cookiesjs/cookies.min.js';
+// import engine from 'cookiesjs';
+// import engine from '../node_modules/cookiesjs/cookies.js';
 
 const getAll = () => {
   const pairs = document.cookie.split(";");
