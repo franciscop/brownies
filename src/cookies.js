@@ -11,7 +11,7 @@ const get = (target, key) => {
 };
 
 // Set a specific cookie (except for setting the options)
-const set = (target, key, value) => {
+const set = (target, key, value = null) => {
   if (key === options) {
     for (let key in value) {
       engine[key] = value[key];
@@ -43,13 +43,11 @@ const getIterator = () => {
   };
 }
 
-const deleteProperty = (target, key) => engine({ [key]: null });
-
 // Allow to do `for (let key in cookies) { ... }`
 const getOwnPropertyDescriptor = () => ({ enumerable: true, configurable: true });
 
 // Allow to do `Object.keys(cookies)`
 const ownKeys = () => Object.keys(getAll());
 
-const traps = { get, set, deleteProperty, getOwnPropertyDescriptor, ownKeys };
+const traps = { get, set, deleteProperty: set, getOwnPropertyDescriptor, ownKeys };
 export default new Proxy({}, traps);

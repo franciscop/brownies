@@ -31,6 +31,7 @@ const local = new Proxy({}, {
 
   deleteProperty: (target, key) => {
     localStorage.removeItem(key);
+    subscriptions.filter(sub => sub.key === key).forEach(({ check }) => check());
     return true;
   },
 
