@@ -84,7 +84,7 @@ const res = cookies.token;   // Get it
 delete cookies.token;        // Eat it
 ```
 
-Cookies will retain the types that is set. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies.js):
+Cookies will retain the types that is set. This is possible thanks to [the underlying library](https://github.com/franciscop/cookies):
 
 ```js
 cookies.id = 1;
@@ -102,7 +102,7 @@ console.log(typeof cookies.user);             // 'object'
 <details>
 <summary><strong>Warning: Manually setting cookies</strong> with <code>document.cookie</code> or server-side [click for details]</summary>
 
-Values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. See the details in [the underlying library](https://github.com/franciscop/cookies.js#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
+Values are encoded first with `JSON.stringify()` to allow for different types, and then with `encodeURIComponent()` to remain RFC 6265 compliant. See the details in [the underlying library](https://github.com/franciscop/cookies#advanced-options). If you are setting cookies manually, you'll have to follow the same process:
 
 ```js
 import { cookies } from 'brownies';
@@ -137,7 +137,7 @@ for (let val of cookies) {}
 
 ### Options
 
-You can change the [cookies **options**](https://github.com/franciscop/cookies.js#options) globally:
+You can change the [cookies **options**](https://github.com/franciscop/cookies#options) globally:
 
 ```js
 import { cookies, options } from 'brownies';
@@ -352,7 +352,7 @@ Changes work even if you use the native API to change the values, or even if the
 import { local, subscribe } from 'brownies';
 
 subscribe(local, 'token', value => {
-  console.log(value);   // 42, 'Hello', null
+  console.log(value);   // 42 (number)
 });
 
 // Note that this is the native one:
