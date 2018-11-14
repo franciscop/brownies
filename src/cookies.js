@@ -1,5 +1,5 @@
 import options from './options';
-import engine from '../lib/cookies';
+import engine from 'cookiesjs';
 import subscriptions from './subscriptions';
 
 // Get a single item from the cookies (except for getting the options or iterator)

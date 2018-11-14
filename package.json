@@ -4,8 +4,7 @@
   "description": "🍫 Tastier cookies and local/session storage in 1.5kb. Includes subscribe() events for changes.",
   "main": "brownies.min.js",
   "scripts": {
-    "build": "npm run copy && rollup brownies.js --name brownies --output.format umd | uglifyjs -o brownies.min.js",
-    "copy": "cp ./node_modules/cookiesjs/cookies.js ./lib/cookies.js",
+    "build": "rollup -c | uglifyjs -o brownies.min.js",
     "pretest": "npm run build",
     "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles --runInBand",
     "gzip": "gzip -c brownies.min.js | wc -c && echo 'bytes' # Only for Unix"
@@ -40,6 +39,7 @@
     "cookiesjs": "^3.0.1",
     "delay": "^4.0.1",
     "rollup": "^0.50.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "sinon": "^6.3.5",
     "uglify-es": "^3.1.3"
   }
