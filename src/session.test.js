@@ -38,7 +38,7 @@ describe('session', () => {
     for (let key in session) {
       keys.push(key);
     }
-    expect(Object.keys(session)).toEqual(['firstname', 'lastname']);
+    expect(keys).toEqual(['firstname', 'lastname']);
     delete session.firstname;
     delete session.lastname;
   });
@@ -67,5 +67,31 @@ describe('session', () => {
     for (let key in session) {
       delete session[key];
     }
+  });
+
+  it('can iterate with invalid items', () => {
+    session.firstname = 'Francisco';
+    sessionStorage.setItem('lastname', 'Presencia');
+    sessionStorage.setItem('age', 25);
+    const keys = [];
+    for (let key in session) {
+      keys.push(key);
+    }
+    const values = [];
+    for (let key of session) {
+      values.push(key);
+    }
+    expect(keys).toEqual(['firstname', 'lastname', 'age']);
+    expect(values).toEqual(['Francisco', 'Presencia', 25]);
+    expect(Object.keys(session)).toEqual(['firstname', 'lastname', 'age']);
+    expect(Object.values(session)).toEqual(['Francisco', 'Presencia', 25]);
+    expect(Object.entries(session)).toEqual([
+      ['firstname', 'Francisco'],
+      ['lastname', 'Presencia'],
+      ['age', 25]
+    ]);
+    delete session.firstname;
+    delete session.lastname;
+    delete session.age;
   });
 });

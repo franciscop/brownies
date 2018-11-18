@@ -20,7 +20,13 @@ const local = new Proxy({}, {
         while(all.length) yield all.shift();
       };
     }
-    return JSON.parse(localStorage.getItem(key));
+    const item = localStorage.getItem(key);
+    try {
+      return JSON.parse(item);
+    } catch (error) {
+      console.warn(`localStorage item for "${key}" is not valid JSON`);
+      return item;
+    }
   },
 
   set: (target, key, value) => {

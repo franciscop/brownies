@@ -29,7 +29,11 @@ const getAll = () => {
   for (var i=0; i<pairs.length; i++){
     const pair = pairs[i].split("=");
     const key = (pair[0] + '').trim();
-    cookies[key] = get({}, key);
+    try {
+      cookies[key] = get({}, key);
+    } catch (error) {
+      console.warn(error);
+    }
   }
   return cookies;
 };

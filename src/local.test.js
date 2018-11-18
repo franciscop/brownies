@@ -38,7 +38,7 @@ describe('local', () => {
     for (let key in local) {
       keys.push(key);
     }
-    expect(Object.keys(local)).toEqual(['firstname', 'lastname']);
+    expect(keys).toEqual(['firstname', 'lastname']);
     delete local.firstname;
     delete local.lastname;
   });
@@ -67,5 +67,31 @@ describe('local', () => {
     for (let key in local) {
       delete local[key];
     }
+  });
+
+  it('can iterate with invalid items', () => {
+    local.firstname = 'Francisco';
+    localStorage.setItem('lastname', 'Presencia');
+    localStorage.setItem('age', 25);
+    const keys = [];
+    for (let key in local) {
+      keys.push(key);
+    }
+    const values = [];
+    for (let key of local) {
+      values.push(key);
+    }
+    expect(keys).toEqual(['firstname', 'lastname', 'age']);
+    expect(values).toEqual(['Francisco', 'Presencia', 25]);
+    expect(Object.keys(local)).toEqual(['firstname', 'lastname', 'age']);
+    expect(Object.values(local)).toEqual(['Francisco', 'Presencia', 25]);
+    expect(Object.entries(local)).toEqual([
+      ['firstname', 'Francisco'],
+      ['lastname', 'Presencia'],
+      ['age', 25]
+    ]);
+    delete local.firstname;
+    delete local.lastname;
+    delete local.age;
   });
 });

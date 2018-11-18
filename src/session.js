@@ -20,7 +20,13 @@ const local = new Proxy({}, {
         while(all.length) yield all.shift();
       };
     }
-    return JSON.parse(sessionStorage.getItem(key));
+    const item = sessionStorage.getItem(key);
+    try {
+      return JSON.parse(item);
+    } catch (error) {
+      console.warn(`sessionStorage item for "${key}" is not valid JSON`);
+      return item;
+    }
   },
 
   set: (target, key, value) => {

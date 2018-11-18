@@ -42,7 +42,7 @@ describe('cookies', () => {
     for (let key in cookies) {
       keys.push(key);
     }
-    expect(Object.keys(cookies)).toEqual(['firstname', 'lastname']);
+    expect(keys).toEqual(['firstname', 'lastname']);
     delete cookies.firstname;
     delete cookies.lastname;
   });
@@ -72,6 +72,42 @@ describe('cookies', () => {
       delete cookies[key];
     }
   });
+
+  it('can iterate with invalid items', () => {
+    cookies.firstname = 'Francisco';
+    document.cookie = 'lastname=Presencia';
+    document.cookie = 'age=25';
+    const keys = [];
+    for (let key in cookies) {
+      keys.push(key);
+    }
+    const values = [];
+    for (let key of cookies) {
+      values.push(key);
+    }
+    expect(keys).toEqual(['firstname', 'lastname', 'age']);
+    expect(values).toEqual(['Francisco', 'Presencia', 25]);
+    expect(Object.keys(cookies)).toEqual(['firstname', 'lastname', 'age']);
+    expect(Object.values(cookies)).toEqual(['Francisco', 'Presencia', 25]);
+    expect(Object.entries(cookies)).toEqual([
+      ['firstname', 'Francisco'],
+      ['lastname', 'Presencia'],
+      ['age', 25]
+    ]);
+    delete cookies.firstname;
+    delete cookies.lastname;
+    delete cookies.age;
+  });
+
+  // it('ignores failing values on the iteration', () => {
+  //   session.firstname = 'Francisco';
+  //   sessionStorage.setItem('lastname', 'Presencia');
+  //   expect(Object.keys(session)).toEqual(['firstname']);
+  //   expect(Object.values(session)).toEqual(['Francisco']);
+  //   expect(Object.entries(session)).toEqual([['firstname', 'Francisco']]);
+  //   delete session.firstname;
+  //   sessionStorage.removeItem('lastname');
+  // });
 
   describe('options', () => {
     it('will expire naturally', async () => {
