@@ -31,4 +31,32 @@ describe('subscribe', () => {
     await delay(200);
     expect(cb.calledOnce).toBe(true);
   });
+
+  it('can unsubscribe with a callback', async () => {
+    const obj = {};
+    const cb = sinon.spy();
+    subscribe(obj, 'id', cb);
+    obj.id = 10;
+    await delay(200);
+    unsubscribe(cb);
+    obj.id = 20;
+    await delay(200);
+    expect(cb.calledOnce).toBe(true);
+  });
+
+  it('can unsubscribe multiple callbacks', async () => {
+    const obj = {};
+    const cb = sinon.spy();
+    subscribe(obj, 'id', cb);
+    subscribe(obj, 'key', cb);
+    subscribe(obj, 'bla', cb);
+    obj.id = 10;
+    await delay(200);
+    unsubscribe(cb);
+    obj.id = 20;
+    obj.key = 20;
+    obj.bla = 20;
+    await delay(200);
+    expect(cb.calledOnce).toBe(true);
+  });
 });
