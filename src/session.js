@@ -1,4 +1,5 @@
 import subscriptions from './subscriptions';
+import { pack, unpack } from './packer';
 
 const getAll = () => {
   const all = {};
@@ -20,17 +21,11 @@ const local = new Proxy({}, {
         while(all.length) yield all.shift();
       };
     }
-    const item = sessionStorage.getItem(key);
-    try {
-      return JSON.parse(item);
-    } catch (error) {
-      console.warn(`sessionStorage item for "${key}" is not valid JSON`);
-      return item;
-    }
+    return unpack(sessionStorage.getItem(key));
   },
 
   set: (target, key, value) => {
-    sessionStorage.setItem(key, JSON.stringify(value));
+    sessionStorage.setItem(key, pack(value));
     subscriptions.filter(sub => sub.key === key).forEach(({ check }) => check());
     return true;
   },

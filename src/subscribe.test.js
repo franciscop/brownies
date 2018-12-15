@@ -51,4 +51,23 @@ describe('subscribe', () => {
     await delay(200);
     expect(cb.calledOnce).toBe(true);
   });
+
+  it('will not trigger with the same object', async () => {
+    const obj = { user: { id: 10, name: 'Francisco' } };
+    const cb = sinon.spy();
+    subscribe(obj, 'user', cb);
+    obj.user.id = 10;
+    await delay(200);
+    expect(cb.calledOnce).toBe(false);
+  });
+
+  // Note: this fails with JSON.stringify, but works with the deterministic one
+  it('will not trigger with the same object but flipped', async () => {
+    const obj = { user: { id: 10, name: 'Francisco' } };
+    const cb = sinon.spy();
+    subscribe(obj, 'user', cb);
+    obj.user = { name: 'Francisco', id: 10 };
+    await delay(200);
+    expect(cb.calledOnce).toBe(false);
+  });
 });

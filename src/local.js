@@ -1,4 +1,5 @@
 import subscriptions from './subscriptions';
+import { pack, unpack } from './packer';
 
 const getAll = () => {
   const all = {};
@@ -20,17 +21,11 @@ const local = new Proxy({}, {
         while(all.length) yield all.shift();
       };
     }
-    const item = localStorage.getItem(key);
-    try {
-      return JSON.parse(item);
-    } catch (error) {
-      console.warn(`localStorage item for "${key}" is not valid JSON`);
-      return item;
-    }
+    return unpack(localStorage.getItem(key));
   },
 
   set: (target, key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, pack(value));
     subscriptions.filter(sub => sub.key === key).forEach(({ check }) => check());
     return true;
   },

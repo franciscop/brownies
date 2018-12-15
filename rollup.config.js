@@ -7,6 +7,6 @@ export default {
     format: 'umd'
   },
   plugins: [
-    resolve()
+    resolve(),
   ]
 };

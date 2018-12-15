@@ -1,4 +1,5 @@
 import local from './local';
+import { pack } from './packer';
 
 describe('local', () => {
   it('is defined', () => {
@@ -16,7 +17,7 @@ describe('local', () => {
   it('does work with the underlying engine', () => {
     expect(localStorage.getItem('name')).toBe(null);
     local.name = 'Francisco';
-    expect(localStorage.getItem('name')).toBe(JSON.stringify('Francisco'));
+    expect(localStorage.getItem('name')).toBe(pack('Francisco'));
     delete local.name;
     expect(localStorage.getItem('name')).toBe(null);
   });
@@ -72,7 +73,7 @@ describe('local', () => {
   it('can iterate with invalid items', () => {
     local.firstname = 'Francisco';
     localStorage.setItem('lastname', 'Presencia');
-    localStorage.setItem('age', 25);
+    localStorage.setItem('age', '25');
     const keys = [];
     for (let key in local) {
       keys.push(key);
@@ -82,16 +83,20 @@ describe('local', () => {
       values.push(key);
     }
     expect(keys).toEqual(['firstname', 'lastname', 'age']);
-    expect(values).toEqual(['Francisco', 'Presencia', 25]);
+    expect(values).toEqual(['Francisco', 'Presencia', '25']);
     expect(Object.keys(local)).toEqual(['firstname', 'lastname', 'age']);
-    expect(Object.values(local)).toEqual(['Francisco', 'Presencia', 25]);
+    expect(Object.values(local)).toEqual(['Francisco', 'Presencia', '25']);
     expect(Object.entries(local)).toEqual([
       ['firstname', 'Francisco'],
       ['lastname', 'Presencia'],
-      ['age', 25]
+      ['age', '25']
     ]);
     delete local.firstname;
     delete local.lastname;
     delete local.age;
+  });
+
+  it('will pack items significatively', () => {
+
   });
 });

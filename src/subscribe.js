@@ -1,21 +1,17 @@
 import subscriptions from './subscriptions';
+import stringify from '../lib/stringify';
 
 const isBasic = value => !value || ['boolean', 'number', 'string'].includes(typeof value);
 
-const toFlat = value => {
-  if (isBasic(value)) return value;
-  return JSON.stringify(value);
-};
-
 const clone = value => {
   if (isBasic(value)) return value;
-  return JSON.parse(JSON.stringify(value));
+  return JSON.parse(stringify(value));
 };
 
 export default (obj, key, cb) => {
   let prev = clone(obj[key]);
   const check = () => {
-    if (toFlat(prev) === toFlat(obj[key])) return;
+    if (stringify(prev) === stringify(obj[key])) return;
     cb(obj[key], prev);
     prev = clone(obj[key]);
   };

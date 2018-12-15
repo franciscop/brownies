@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rollup -c | uglifyjs -o brownies.min.js",
     "pretest": "npm run build",
-    "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles --runInBand",
+    "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles",
     "gzip": "gzip -c brownies.min.js | wc -c && echo 'bytes' # Only for Unix"
   },
   "files": [],
@@ -38,7 +38,10 @@
     "babel-preset-env": "^1.6.1",
     "cookiesjs": "^3.0.1",
     "delay": "^4.0.1",
+    "json-stable-stringify": "^1.0.1",
+    "lznext": "^0.1.0",
     "rollup": "^0.50.0",
+    "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "sinon": "^6.3.5",
     "uglify-es": "^3.1.3"

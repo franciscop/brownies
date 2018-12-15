@@ -142,15 +142,5 @@ describe('cookies', () => {
       await delay(1000);
       expect(cookies.id).toBe(null);
     });
-
-    // How to test session cookies with jest? No idea :v
-    it.skip('can set session cookies', async () => {
-      cookies[options] = { expires: 0 };
-      expect(cookies.id).toBe(null);
-      cookies.id = 10;
-      expect(cookies.id).toBe(10);
-      await delay(1000);
-      expect(cookies.id).toBe(null);
-    });
   });
 });

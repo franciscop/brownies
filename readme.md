@@ -1,6 +1,6 @@
 # Brownies [![npm install brownies](https://img.shields.io/badge/npm%20install-brownies-blue.svg)](https://www.npmjs.com/package/brownies) [![gzip size](https://img.badgesize.io/franciscop/brownies/master/brownies.min.js.svg?compression=gzip)](https://github.com/franciscop/brownies/blob/master/brownies.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-limegreen.svg)](https://github.com/franciscop/brownies/blob/master/package.json) [![support](https://img.shields.io/badge/es-6-limegreen.svg)](https://caniuse.com/#feat=proxy) [![playground](https://img.shields.io/badge/play-jsfiddle-blue.svg)](https://jsfiddle.net/oc5ju3ge/)
 
-Tastier cookies and local/session storage in 1.7kb:
+Tastier cookies and local/session storage in a tiny package:
 
 ```js
 import { cookies, local } from 'brownies';
@@ -110,6 +110,7 @@ document.cookie = `name=${encodeURIComponent(JSON.stringify('Francisco'))}`
 console.log(cookies.name);  // Francisco
 ```
 
+<hr />
 </details>
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
@@ -185,32 +186,7 @@ console.log(Array.isArray(local.friends));  // true
 console.log(typeof local.user);             // 'object'
 ```
 
-<details>
-<summary><strong>Warning: Manually setting values</strong> with <code>localStorage</code> [click for details]</summary>
-
-The values are encoded by `brownies` with `JSON.stringify()` to maintain the types. If you are want to manually set a value with `localStorage.setItem()` that you will later read with `brownies`, you'll have to stringify it first:
-
-```js
-localStorage.setItem('name', JSON.stringify('Francisco'));
-console.log(local.name);  // Francisco
-```
-
-Same the other way around, if you want to read a value set by `brownies` with plain Javascript, you'll have to parse it first:
-
-```js
-local.name = 'Francisco';
-console.log(JSON.parse(localStorage.getItem('name'))); // Francisco
-```
-
-Of course we recommend to stick to the library as much as possible for a cleaner interface:
-
-```js
-import { local } from 'brownies';
-local.name = 'Francisco';
-console.log(local.name);  // Francisco
-```
-
-</details>
+> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem()`~~. Please use the `local.KEY` API provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
@@ -270,32 +246,7 @@ console.log(Array.isArray(session.friends));  // true
 console.log(typeof session.user);             // 'object'
 ```
 
-<details>
-<summary><strong>Warning: Manually setting values</strong> with <code>sessionStorage</code> [click for details]</summary>
-
-The values are encoded by `brownies` with `JSON.stringify()` to maintain the types. If you are want to manually set a value with `sessionStorage.setItem()` that you will later read with `brownies`, you'll have to stringify it first:
-
-```js
-sessionStorage.setItem('name', JSON.stringify('Francisco'));
-console.log(session.name);  // Francisco
-```
-
-Same the other way around, if you want to read a value set by `brownies` with plain Javascript, you'll have to parse it first:
-
-```js
-session.name = 'Francisco';
-console.log(JSON.parse(sessionStorage.getItem('name'))); // Francisco
-```
-
-Of course we recommend to stick to the library as much as possible for a cleaner interface:
-
-```js
-import { session } from 'brownies';
-session.name = 'Francisco';
-console.log(session.name);  // Francisco
-```
-
-</details>
+> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`sessionStorage.getItem()`~~. Please use the `session.KEY` API provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
