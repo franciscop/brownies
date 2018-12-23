@@ -38,6 +38,8 @@
     "babel-preset-env": "^1.6.1",
     "cookiesjs": "^3.0.1",
     "delay": "^4.0.1",
+    "fake-indexeddb": "^2.0.4",
+    "idb-keyval": "^3.1.0",
     "json-stable-stringify": "^1.0.1",
     "lznext": "^0.1.0",
     "rollup": "^0.50.0",

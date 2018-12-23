@@ -3,7 +3,7 @@
 Tastier cookies and local/session storage in a tiny package:
 
 ```js
-import { cookies, local } from 'brownies';
+import { cookies, local, db } from 'brownies';
 
 cookies.token = 42;      // Set it
 const t = cookies.token; // Get it
@@ -11,7 +11,12 @@ delete cookies.token;    // Eat it
 
 local.token = 42;        // Set it
 const t = local.token;   // Get it
-delete local.token;      // Del it
+delete local.token;      // Eat it
+
+// db is async and a bit different
+db.token = 42;            // Set it
+const t = await db.token; // Get it
+delete db.token;          // Del it
 ```
 
 Subscribe to changes in any of the objects:

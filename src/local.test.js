@@ -95,8 +95,4 @@ describe('local', () => {
     delete local.lastname;
     delete local.age;
   });
-
-  it('will pack items significatively', () => {
-
-  });
 });
