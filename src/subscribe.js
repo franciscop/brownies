@@ -9,11 +9,19 @@ const clone = value => {
 };
 
 export default (obj, key, cb) => {
-  let prev = clone(obj[key]);
+  let prev = obj[key] && obj[key].then ? obj[key].then(clone) : clone(obj[key]);
   const check = () => {
-    if (stringify(prev) === stringify(obj[key])) return;
-    cb(obj[key], prev);
-    prev = clone(obj[key]);
+    const value = obj[key];
+    if ((prev && prev.then) || (value && value.then)) {
+      return Promise.all([prev, value]).then(([previous, value]) => {
+        if (stringify(previous) === stringify(value)) return;
+        cb(value, previous);
+        prev = clone(value);
+      });
+    }
+    if (stringify(prev) === stringify(value)) return;
+    cb(value, prev);
+    prev = clone(value);
   };
   const id = setInterval(check, 100);
   subscriptions.push({ id, key, check, cb });

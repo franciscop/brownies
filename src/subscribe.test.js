@@ -52,6 +52,24 @@ describe('subscribe', () => {
     expect(cb.calledOnce).toBe(true);
   });
 
+  it('does well with promises without changes', async () => {
+    const obj = { user: Promise.resolve({ id: 10 }) };
+    const cb = sinon.spy();
+    subscribe(obj, 'user', cb);
+    obj.user = { id: 10 };
+    await delay(200);
+    expect(cb.calledOnce).toBe(false);
+  });
+
+  it('does well with promises', async () => {
+    const obj = { user: Promise.resolve({ id: 10 }) };
+    const cb = sinon.spy();
+    subscribe(obj, 'user', cb);
+    obj.user = { id: 20 };
+    await delay(200);
+    expect(cb.calledOnce).toBe(true);
+  });
+
   it('will not trigger with the same object', async () => {
     const obj = { user: { id: 10, name: 'Francisco' } };
     const cb = sinon.spy();

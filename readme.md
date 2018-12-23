@@ -186,7 +186,7 @@ console.log(Array.isArray(local.friends));  // true
 console.log(typeof local.user);             // 'object'
 ```
 
-> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem()`~~. Please use the `local.KEY` API provided by `brownies` API instead.
+> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
@@ -246,7 +246,7 @@ console.log(Array.isArray(session.friends));  // true
 console.log(typeof session.user);             // 'object'
 ```
 
-> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`sessionStorage.getItem()`~~. Please use the `session.KEY` API provided by `brownies` API instead.
+> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`sessionStorage.getItem(KEY)`~~. Please use the `session.KEY` provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
@@ -295,7 +295,7 @@ delete local.token;
 local.token = 'Hello';
 ```
 
-**Warning**: `subscribe()` cannot assure that it is synchronous nor that the order is maintained, so the above might not trigger if the end value is the same as the initial value or middle steps might not be shown.
+**Warning**: `subscribe()` cannot guarantee being sync, so the above might not trigger if the end value is the same as the initial value or middle steps might not be shown.
 
 Changes work even if you use the native API to change the values, or even if the changes happen on another tab:
 
@@ -303,11 +303,11 @@ Changes work even if you use the native API to change the values, or even if the
 import { local, subscribe } from 'brownies';
 
 subscribe(local, 'token', value => {
-  console.log(value);   // 42 (number)
+  console.log(value);   // abc (string)
 });
 
 // Note that this is the native one:
-localStorage.setItem('token', JSON.stringify(42));
+localStorage.setItem('token', 'abc');
 ```
 
 To unsubscribe, store the value returned by `subscribe()` and then use it with `unsubscribe()`:
@@ -356,14 +356,12 @@ export default class extends React.Component {
 }
 ```
 
+**Warning**: try to keep the number of subscriptions low since each will incur in a performance cost.
+
 
 
 ### Trivia
 
-My former coworker made delicious brownies when leaving the company and asked me to name a library brownies. I thought it was a fantastic idea, since brownies are tastier cookies after all 🙂.
+My former coworker made delicious brownies when leaving the company and asked me to name a library brownies. I thought it was a fantastic idea, since [brownies are tastier cookies](https://wow-cookies.com/brownies-are-they-cookies-or-cake/) after all 🙂.
 
-Brownies are [technically](https://wow-cookies.com/brownies-are-they-cookies-or-cake/) [cookies](https://www.quora.com/Are-brownies-classified-as-a-cake-or-a-cookie) because they are finger food.
-
-This library was previously named `clean-store`, but I never really liked that name.
-
-The stars in this repository [were transferred from the previous repository](https://francisco.io/blog/transferring-github-stars/).
+This library was previously named `clean-store`, but I never really liked that name. The stars in this repository [were transferred from the previous repository](https://francisco.io/blog/transferring-github-stars/).
