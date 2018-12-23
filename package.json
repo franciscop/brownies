@@ -1,6 +1,6 @@
 {
   "name": "brownies",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "🍫 Tastier cookies and local/session storage in 1.5kb. Includes subscribe() events for changes.",
   "main": "brownies.min.js",
   "scripts": {
