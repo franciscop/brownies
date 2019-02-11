@@ -13,7 +13,7 @@ local.token = 42;       // Set it
 let t = local.token;    // Get it
 delete local.token;     // Del it
 
-// db is async and a bit different
+// db is ASYNC so read is different
 db.token = 42;          // Set it
 let t = await db.token; // Get it
 delete db.token;        // Del it
@@ -191,7 +191,7 @@ console.log(Array.isArray(local.friends));  // true
 console.log(typeof local.user);             // 'object'
 ```
 
-> Since 2.0 we are [using custom data storage to make the types consistent](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
+> Since 2.0 we are using custom data storage to keep the types consistent, but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
@@ -251,7 +251,7 @@ console.log(Array.isArray(session.friends));  // true
 console.log(typeof session.user);             // 'object'
 ```
 
-> Since 2.0 we are [using custom data storage to make the types consistent](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
+> Since 2.0 we are using custom data storage to keep the types consistent, but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
