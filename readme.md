@@ -1,22 +1,22 @@
 # Brownies [![npm install brownies](https://img.shields.io/badge/npm%20install-brownies-blue.svg)](https://www.npmjs.com/package/brownies) [![gzip size](https://img.badgesize.io/franciscop/brownies/master/brownies.min.js.svg?compression=gzip)](https://github.com/franciscop/brownies/blob/master/brownies.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-limegreen.svg)](https://github.com/franciscop/brownies/blob/master/package.json) [![support](https://img.shields.io/badge/es-6-limegreen.svg)](https://caniuse.com/#feat=proxy) [![playground](https://img.shields.io/badge/play-jsfiddle-blue.svg)](https://jsfiddle.net/oc5ju3ge/)
 
-Tastier cookies and local/session storage in a tiny package:
+Tastier `cookies`, `local`, `session`, and `db` storage in a tiny package:
 
 ```js
 import { cookies, local, db } from 'brownies';
 
-cookies.token = 42;      // Set it
-const t = cookies.token; // Get it
-delete cookies.token;    // Eat it
+cookies.token = 42;     // Set it
+let t = cookies.token;  // Get it
+delete cookies.token;   // Eat it
 
-local.token = 42;        // Set it
-const t = local.token;   // Get it
-delete local.token;      // Eat it
+local.token = 42;       // Set it
+let t = local.token;    // Get it
+delete local.token;     // Del it
 
 // db is async and a bit different
-db.token = 42;            // Set it
-const t = await db.token; // Get it
-delete db.token;          // Del it
+db.token = 42;          // Set it
+let t = await db.token; // Get it
+delete db.token;        // Del it
 ```
 
 Subscribe to changes in any of the objects:
@@ -191,7 +191,7 @@ console.log(Array.isArray(local.friends));  // true
 console.log(typeof local.user);             // 'object'
 ```
 
-> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
+> Since 2.0 we are [using custom data storage to make the types consistent](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 
@@ -251,7 +251,7 @@ console.log(Array.isArray(session.friends));  // true
 console.log(typeof session.user);             // 'object'
 ```
 
-> Since 2.0 we are [using **LZ Compression** to give you more space](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`sessionStorage.getItem(KEY)`~~. Please use the `session.KEY` provided by `brownies` API instead.
+> Since 2.0 we are [using custom data storage to make the types consistent](https://francisco.io/blog/increase-localstorage-size/), but this means that you cannot read items that were set by `brownies` like ~~`localStorage.getItem(KEY)`~~. Please use the `local.KEY` provided by `brownies` API instead.
 
 To delete a item, you have to call `delete` on it as you would normally do with object properties:
 

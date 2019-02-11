@@ -1,7 +1,7 @@
 {
   "name": "brownies",
   "version": "2.2.0",
-  "description": "🍫 Tastier cookies and local/session storage in 1.5kb. Includes subscribe() events for changes.",
+  "description": "🍫 Tastier cookies, local, session, and db storage in a tiny package. Includes subscribe() events for changes.",
   "main": "brownies.min.js",
   "scripts": {
     "build": "rollup -c | uglifyjs -o brownies.min.js",
@@ -41,7 +41,6 @@
     "fake-indexeddb": "^2.0.4",
     "idb-keyval": "^3.1.0",
     "json-stable-stringify": "^1.0.1",
-    "lznext": "^0.1.0",
     "rollup": "^0.50.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
