@@ -352,10 +352,10 @@ export default class extends React.Component {
     this.setState({ points });
   }
   componentDidMount () {
-    this.subscription = subscribe(local, 'points', this.updatePoints);
+    subscribe(local, 'points', this.updatePoints);
   }
   componentWillUnmount () {
-    unsubscribe(this.subscription);
+    unsubscribe(this.updatePoints);
   }
   render () {
     return <div>Points: {this.state.points}</div>;
