@@ -1,6 +1,6 @@
 {
   "name": "brownies",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "🍫 Tastier cookies, local, session, and db storage in a tiny package. Includes subscribe() events for changes.",
   "repository": "github:franciscop/brownies",
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
