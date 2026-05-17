@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'bun:test';
 import session from './session';
 import { pack } from './packer';
 
@@ -36,7 +37,7 @@ describe('session', () => {
     session.firstname = 'Francisco';
     session.lastname = 'Presencia';
     const keys = [];
-    for (let key in session) {
+    for (const key in session) {
       keys.push(key);
     }
     expect(keys).toEqual(['firstname', 'lastname']);
@@ -44,14 +45,16 @@ describe('session', () => {
     delete session.lastname;
   });
 
-  it('throws for the iteration since it is not yet ready', () => {
+  it('can iterate with "of"', () => {
     session.firstname = 'Francisco';
     session.lastname = 'Presencia';
     const values = [];
-    for (let val of session) {
+    for (const val of session as unknown as Iterable<unknown>) {
       values.push(val);
     }
     expect(values).toEqual(['Francisco', 'Presencia']);
+    delete session.firstname;
+    delete session.lastname;
   });
 
   it('retains the types', () => {
@@ -65,7 +68,7 @@ describe('session', () => {
     expect(typeof session.name).toEqual('string');
     expect(Array.isArray(session.friends)).toEqual(true);
     expect(typeof session.user).toEqual('object');
-    for (let key in session) {
+    for (const key in session) {
       delete session[key];
     }
   });
@@ -75,12 +78,12 @@ describe('session', () => {
     sessionStorage.setItem('lastname', 'Presencia');
     sessionStorage.setItem('age', '25');
     const keys = [];
-    for (let key in session) {
+    for (const key in session) {
       keys.push(key);
     }
     const values = [];
-    for (let key of session) {
-      values.push(key);
+    for (const val of session as unknown as Iterable<unknown>) {
+      values.push(val);
     }
     expect(keys).toEqual(['firstname', 'lastname', 'age']);
     expect(values).toEqual(['Francisco', 'Presencia', '25']);
@@ -89,7 +92,7 @@ describe('session', () => {
     expect(Object.entries(session)).toEqual([
       ['firstname', 'Francisco'],
       ['lastname', 'Presencia'],
-      ['age', '25']
+      ['age', '25'],
     ]);
     delete session.firstname;
     delete session.lastname;

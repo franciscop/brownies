@@ -2,14 +2,10 @@
   "name": "brownies",
   "version": "3.0.0",
   "description": "🍫 Tastier cookies, local, session, and db storage in a tiny package. Includes subscribe() events for changes.",
-  "main": "brownies.min.js",
-  "scripts": {
-    "build": "rollup -c | uglifyjs -o brownies.min.js",
-    "pretest": "npm run build",
-    "test": "jest --coverage --collectCoverageFrom=src/**/*.js --detectOpenHandles",
-    "gzip": "gzip -c brownies.min.js | wc -c && echo 'bytes' # Only for Unix"
-  },
-  "files": [],
+  "repository": "github:franciscop/brownies",
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "funding": "https://www.paypal.me/franciscopresencia/19",
+  "license": "MIT",
   "keywords": [
     "brownies",
     "cookie",
@@ -23,28 +19,29 @@
     "clean",
     "interface"
   ],
-  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/franciscop/brownies.git"
+  "scripts": {
+    "build": "bun run build:bundle && bun run build:types",
+    "build:bundle": "rolldown src/index.ts -f umd -n brownies -o index.min.js",
+    "build:types": "dts-bundle-generator --out-file index.d.ts --project tsconfig.json src/index.ts",
+    "lint": "tsc",
+    "size": "echo $(gzip -c index.min.js | wc -c) bytes",
+    "start": "bun test --watch --preload ./src/setup.ts",
+    "test": "bun test --preload ./src/setup.ts"
   },
-  "bugs": {
-    "url": "https://github.com/franciscop/brownies/issues"
-  },
-  "license": "MIT",
+  "main": "index.min.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.min.js",
+    "index.d.ts"
+  ],
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-jest": "^21.2.0",
-    "babel-preset-env": "^1.6.1",
-    "cookiesjs": "^3.0.1",
-    "delay": "^4.0.1",
-    "fake-indexeddb": "^2.0.4",
-    "idb-keyval": "^3.1.0",
-    "json-stable-stringify": "^1.0.1",
-    "rollup": "^0.50.0",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "sinon": "^6.3.5",
-    "uglify-es": "^3.1.3"
+    "@happy-dom/global-registrator": "^20.9.0",
+    "@types/bun": "^1.3.0",
+    "delay": "^7.0.0",
+    "dts-bundle-generator": "^9.5.1",
+    "fake-indexeddb": "^6.0.0",
+    "idb-keyval": "^6.0.0",
+    "rolldown": "^1.0.1",
+    "typescript": "^5.0.0"
   }
 }

@@ -1,5 +1,6 @@
+import { describe, it, expect } from 'bun:test';
+import 'fake-indexeddb/auto';
 import db from './db';
-global.indexedDB = global.indexedDB || require("fake-indexeddb");
 
 describe('db', () => {
   it('is defined', () => {
@@ -14,7 +15,6 @@ describe('db', () => {
     expect(await db.name).toBe(null);
   });
 
-  // All of those depend on "ownKeys", and "ownKeys" cannot return a Promise...
   it('can list the db', async () => {
     db.firstname = 'Francisco';
     db.lastname = 'Presencia';
@@ -25,12 +25,11 @@ describe('db', () => {
     delete db.lastname;
   });
 
-  // This again uses "ownKeys", so it cannot be reliably iterated
   it('can iterate with "in"', async () => {
     db.firstname = 'Francisco';
     db.lastname = 'Presencia';
     const keys = [];
-    for (let key in await db()) {
+    for (const key in await db()) {
       keys.push(key);
     }
     expect(keys).toEqual(['firstname', 'lastname']);
@@ -49,7 +48,7 @@ describe('db', () => {
     expect(typeof await db.name).toEqual('string');
     expect(Array.isArray(await db.friends)).toEqual(true);
     expect(typeof await db.user).toEqual('object');
-    for (let key in await db()) {
+    for (const key in await db()) {
       delete db[key];
     }
   });
@@ -60,7 +59,7 @@ describe('db', () => {
     db.age = '25';
     const keys = [];
     const values = [];
-    for (let key in await db()) {
+    for (const key in await db()) {
       keys.push(key);
       values.push(await db[key]);
     }
@@ -71,7 +70,7 @@ describe('db', () => {
     expect(Object.entries(await db())).toEqual([
       ['age', '25'],
       ['firstname', 'Francisco'],
-      ['lastname', 'Presencia']
+      ['lastname', 'Presencia'],
     ]);
     delete db.firstname;
     delete db.lastname;

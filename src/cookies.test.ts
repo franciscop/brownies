@@ -1,7 +1,7 @@
+import { describe, it, expect } from 'bun:test';
 import cookies from './cookies';
 import options from './options';
 import delay from 'delay';
-
 
 describe('cookies', () => {
   it('is defined', () => {
@@ -17,12 +17,12 @@ describe('cookies', () => {
   });
 
   it('does work with the underlying engine', () => {
-    expect(document.cookie).toBe("");
+    expect(document.cookie).toBe('');
     cookies.name = 'Francisco';
     const raw = decodeURIComponent(document.cookie);
     expect(raw).toBe('name=' + JSON.stringify('Francisco'));
     delete cookies.name;
-    expect(document.cookie).toBe("");
+    expect(document.cookie).toBe('');
   });
 
   it('can list the cookies', () => {
@@ -39,7 +39,7 @@ describe('cookies', () => {
     cookies.firstname = 'Francisco';
     cookies.lastname = 'Presencia';
     const keys = [];
-    for (let key in cookies) {
+    for (const key in cookies) {
       keys.push(key);
     }
     expect(keys).toEqual(['firstname', 'lastname']);
@@ -47,14 +47,16 @@ describe('cookies', () => {
     delete cookies.lastname;
   });
 
-  it('throws for the iteration since it is not yet ready', () => {
+  it('can iterate with "of"', () => {
     cookies.firstname = 'Francisco';
     cookies.lastname = 'Presencia';
     const values = [];
-    for (let val of cookies) {
+    for (const val of cookies as unknown as Iterable<unknown>) {
       values.push(val);
     }
     expect(values).toEqual(['Francisco', 'Presencia']);
+    delete cookies.firstname;
+    delete cookies.lastname;
   });
 
   it('retains the types', () => {
@@ -68,7 +70,7 @@ describe('cookies', () => {
     expect(typeof cookies.name).toEqual('string');
     expect(Array.isArray(cookies.friends)).toEqual(true);
     expect(typeof cookies.user).toEqual('object');
-    for (let key in cookies) {
+    for (const key in cookies) {
       delete cookies[key];
     }
   });
@@ -78,12 +80,12 @@ describe('cookies', () => {
     document.cookie = 'lastname=Presencia';
     document.cookie = 'age=25';
     const keys = [];
-    for (let key in cookies) {
+    for (const key in cookies) {
       keys.push(key);
     }
     const values = [];
-    for (let key of cookies) {
-      values.push(key);
+    for (const val of cookies as unknown as Iterable<unknown>) {
+      values.push(val);
     }
     expect(keys).toEqual(['firstname', 'lastname', 'age']);
     expect(values).toEqual(['Francisco', 'Presencia', 25]);
@@ -92,22 +94,12 @@ describe('cookies', () => {
     expect(Object.entries(cookies)).toEqual([
       ['firstname', 'Francisco'],
       ['lastname', 'Presencia'],
-      ['age', 25]
+      ['age', 25],
     ]);
     delete cookies.firstname;
     delete cookies.lastname;
     delete cookies.age;
   });
-
-  // it('ignores failing values on the iteration', () => {
-  //   session.firstname = 'Francisco';
-  //   sessionStorage.setItem('lastname', 'Presencia');
-  //   expect(Object.keys(session)).toEqual(['firstname']);
-  //   expect(Object.values(session)).toEqual(['Francisco']);
-  //   expect(Object.entries(session)).toEqual([['firstname', 'Francisco']]);
-  //   delete session.firstname;
-  //   sessionStorage.removeItem('lastname');
-  // });
 
   describe('options', () => {
     it('will expire naturally', async () => {

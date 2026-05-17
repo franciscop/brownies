@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'bun:test';
 import local from './local';
 import { pack } from './packer';
 
@@ -36,7 +37,7 @@ describe('local', () => {
     local.firstname = 'Francisco';
     local.lastname = 'Presencia';
     const keys = [];
-    for (let key in local) {
+    for (const key in local) {
       keys.push(key);
     }
     expect(keys).toEqual(['firstname', 'lastname']);
@@ -44,14 +45,16 @@ describe('local', () => {
     delete local.lastname;
   });
 
-  it('throws for the iteration since it is not yet ready', () => {
+  it('can iterate with "of"', () => {
     local.firstname = 'Francisco';
     local.lastname = 'Presencia';
     const values = [];
-    for (let val of local) {
+    for (const val of local as unknown as Iterable<unknown>) {
       values.push(val);
     }
     expect(values).toEqual(['Francisco', 'Presencia']);
+    delete local.firstname;
+    delete local.lastname;
   });
 
   it('retains the types', () => {
@@ -65,7 +68,7 @@ describe('local', () => {
     expect(typeof local.name).toEqual('string');
     expect(Array.isArray(local.friends)).toEqual(true);
     expect(typeof local.user).toEqual('object');
-    for (let key in local) {
+    for (const key in local) {
       delete local[key];
     }
   });
@@ -75,12 +78,12 @@ describe('local', () => {
     localStorage.setItem('lastname', 'Presencia');
     localStorage.setItem('age', '25');
     const keys = [];
-    for (let key in local) {
+    for (const key in local) {
       keys.push(key);
     }
     const values = [];
-    for (let key of local) {
-      values.push(key);
+    for (const val of local as unknown as Iterable<unknown>) {
+      values.push(val);
     }
     expect(keys).toEqual(['firstname', 'lastname', 'age']);
     expect(values).toEqual(['Francisco', 'Presencia', '25']);
@@ -89,7 +92,7 @@ describe('local', () => {
     expect(Object.entries(local)).toEqual([
       ['firstname', 'Francisco'],
       ['lastname', 'Presencia'],
-      ['age', '25']
+      ['age', '25'],
     ]);
     delete local.firstname;
     delete local.lastname;
