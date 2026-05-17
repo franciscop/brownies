@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "build": "bun run build:bundle && bun run build:types",
-    "build:bundle": "rolldown src/index.ts -f umd -n brownies -o index.min.js",
+    "build:bundle": "rolldown src/index.ts -f umd -n brownies -o index.min.js -m",
     "build:types": "dts-bundle-generator --out-file index.d.ts --project tsconfig.json src/index.ts",
     "lint": "tsc",
     "size": "echo $(gzip -c index.min.js | wc -c) bytes",
