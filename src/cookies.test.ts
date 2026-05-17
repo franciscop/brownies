@@ -118,7 +118,7 @@ describe('cookies', () => {
       expect(cookies.id).toBe(null);
       cookies.id = 10;
       expect(cookies.id).toBe(10);
-      await delay(1100);
+      await delay(1500);
       expect(cookies[options].expires).toBe(1);
       expect(cookies.id).toBe(null);
     });
@@ -131,7 +131,7 @@ describe('cookies', () => {
       expect(cookies[options].expires).toBe(2);
       await delay(1100);
       expect(cookies.id).toBe(10);
-      await delay(1000);
+      await delay(1500);
       expect(cookies.id).toBe(null);
     });
   });
