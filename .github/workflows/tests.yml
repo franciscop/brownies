@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+      - name: Install dependencies
+        run: bun install
+      - name: Build it
+        run: bun run build
+        env:
+          CI: true
+      - name: Run the linter
+        run: bun run lint
+        env:
+          CI: true
+      - name: Run the tests
+        run: bun run test
+        env:
+          CI: true
