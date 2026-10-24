@@ -50,7 +50,7 @@ var cookies = function (data, opt) {
     var real;
     try {
       real = JSON.parse(value);
-    } catch (e) {
+    } catch {
       real = value;
     }
     if (typeof real === 'undefined' && opt.fallback) real = opt.fallback(data, opt);

@@ -23,7 +23,7 @@
     "build": "bun run build:bundle && bun run build:types",
     "build:bundle": "rolldown src/index.ts -f umd -n brownies -o index.min.js -m",
     "build:types": "dts-bundle-generator --out-file index.d.ts --project tsconfig.json src/index.ts",
-    "lint": "tsc",
+    "lint": "oxlint src && tsc",
     "size": "echo $(gzip -c index.min.js | wc -c) bytes",
     "start": "bun test --watch --preload ./src/setup.ts",
     "test": "bun test --preload ./src/setup.ts"
@@ -41,6 +41,7 @@
     "dts-bundle-generator": "^9.5.1",
     "fake-indexeddb": "^6.0.0",
     "idb-keyval": "^6.0.0",
+    "oxlint": "^1.89.0",
     "rolldown": "^1.0.1",
     "typescript": "^5.0.0"
   }

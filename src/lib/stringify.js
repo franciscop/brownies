@@ -28,7 +28,7 @@ export default (obj, opts) => {
 
   var seen = [];
   return (function stringify(parent, key, node, level) {
-    var indent = space ? ('\n' + new Array(level + 1).join(space)) : '';
+    var indent = space ? ('\n' + space.repeat(level)) : '';
     var colonSeparator = space ? ': ' : ':';
 
     if (node && node.toJSON && typeof node.toJSON === 'function') {
