@@ -1,9 +1,9 @@
-import stringify from './lib/stringify';
+import stringify from "./lib/stringify";
 
-const js = 'JSSTR:';
+const js = "JSSTR:";
 
 export const pack = (value: unknown): string => {
-  if (typeof value !== 'string') {
+  if (typeof value !== "string") {
     return js + stringify(value);
   }
   return value;

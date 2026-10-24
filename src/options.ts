@@ -1,2 +1,2 @@
-const options = Symbol('options');
+const options = Symbol("options");
 export default options;

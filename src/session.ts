@@ -1,5 +1,5 @@
-import subscriptions from './subscriptions';
-import { pack, unpack } from './packer';
+import subscriptions from "./subscriptions";
+import { pack, unpack } from "./packer";
 
 const getAll = (): Record<string, unknown> => {
   const all: Record<string, unknown> = {};
@@ -18,21 +18,25 @@ const session = new Proxy({} as Record<string, unknown>, {
         while (all.length) yield all.shift()!;
       };
     }
-    if (typeof key !== 'string') return undefined;
+    if (typeof key !== "string") return undefined;
     return unpack(sessionStorage.getItem(key));
   },
 
   set(_target, key, value: unknown): boolean {
-    if (typeof key !== 'string') return false;
+    if (typeof key !== "string") return false;
     sessionStorage.setItem(key, pack(value));
-    subscriptions.filter(sub => sub.key === key).forEach(({ check }) => check());
+    subscriptions
+      .filter((sub) => sub.key === key)
+      .forEach(({ check }) => check());
     return true;
   },
 
   deleteProperty(_target, key): boolean {
-    if (typeof key !== 'string') return false;
+    if (typeof key !== "string") return false;
     sessionStorage.removeItem(key);
-    subscriptions.filter(sub => sub.key === key).forEach(({ check }) => check());
+    subscriptions
+      .filter((sub) => sub.key === key)
+      .forEach(({ check }) => check());
     return true;
   },
 

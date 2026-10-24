@@ -1,8 +1,8 @@
-import subscriptions from './subscriptions';
-import stringify from './lib/stringify';
+import subscriptions from "./subscriptions";
+import stringify from "./lib/stringify";
 
 const isBasic = (value: unknown): boolean =>
-  !value || ['boolean', 'number', 'string'].includes(typeof value);
+  !value || ["boolean", "number", "string"].includes(typeof value);
 
 const clone = (value: unknown): unknown => {
   if (isBasic(value)) return value;
@@ -11,7 +11,11 @@ const clone = (value: unknown): unknown => {
 
 type MaybePromise = { then?: unknown };
 
-export default (obj: object, key: PropertyKey, cb: (...args: unknown[]) => unknown): ReturnType<typeof setInterval> => {
+export default (
+  obj: object,
+  key: PropertyKey,
+  cb: (...args: unknown[]) => unknown,
+): ReturnType<typeof setInterval> => {
   const get = () => (obj as Record<PropertyKey, unknown>)[key];
   const val = get();
   let prev: unknown = (val as MaybePromise)?.then
